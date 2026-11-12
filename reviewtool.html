@@ -2796,6 +2796,45 @@ textarea.fca-field__input { min-height: 96px; resize: vertical; padding-block: v
 .rv-panel__body > * { flex-shrink: 0; }
 .rv-menu__head--group { margin-top: var(--space-2); padding-top: var(--space-4); border-top: 1px solid var(--line); }
 
+/* image attachments */
+.rv-att { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+.rv-att:empty { display: none; }
+.rv-att__thumb { position: relative; width: 64px; height: 48px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--line); background: var(--surface-muted); }
+.rv-att__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rv-att__x { position: absolute; top: 2px; right: 2px; width: 20px; height: 20px; padding: 0; border: 0; border-radius: var(--radius-full); background: rgba(32,32,48,.72); color: #fff; display: grid; place-items: center; cursor: pointer; }
+.rv-att__x svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 2.4; fill: none; stroke-linecap: round; }
+.rv-att__x:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.rv-att__add { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 10px; border: 1px dashed var(--line-strong); border-radius: var(--radius-sm); background: transparent; color: var(--ink-2); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.rv-att__add:hover { background: var(--surface-muted); color: var(--ink); }
+.rv-att__add:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.rv-att__add svg, .rv-imgcount svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.7; fill: none; stroke-linejoin: round; stroke-linecap: round; flex: none; }
+.rv-att__hint { font-size: 12px; color: var(--ink-3); }
+.rv-msg--compose .rv-att, .rv-msg .rv-post__body > .rv-att { margin: 2px 0 var(--space-1); }
+.is-drop { outline: 2px dashed var(--action); outline-offset: 4px; border-radius: var(--radius-sm); }
+.rv-imgs { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-1); }
+.rv-img { width: 112px; height: 80px; padding: 0; border: 1px solid var(--line); border-radius: var(--radius-sm); overflow: hidden; background: var(--surface-muted); cursor: zoom-in; }
+.rv-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform var(--dur-base) var(--ease-standard); }
+.rv-img:hover img { transform: scale(1.03); }
+.rv-img:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.rv-imgcount { display: inline-flex; align-items: center; gap: 4px; }
+.rv-imgcount svg { width: 14px; height: 14px; }
+.rv-item__img { font-style: normal; color: var(--ink-3); }
+.rv-lightbox { position: fixed; inset: 0; z-index: 200; background: rgba(15,19,16,.9); display: grid; place-items: center; padding: 56px 72px; }
+.rv-lightbox[hidden] { display: none; }
+.rv-lightbox__fig { margin: 0; display: grid; gap: var(--space-2); justify-items: center; max-width: 100%; max-height: 100%; }
+.rv-lightbox__fig img { max-width: min(1400px, calc(100vw - 144px)); max-height: calc(100vh - 140px); border-radius: var(--radius-sm); background: #fff; box-shadow: 0 12px 40px rgba(0,0,0,.4); }
+.rv-lightbox__cap { color: rgba(255,255,255,.8); font-size: 13px; }
+.rv-lightbox__btn { position: absolute; width: 44px; height: 44px; border: 0; border-radius: var(--radius-full); background: rgba(255,255,255,.12); color: #fff; display: grid; place-items: center; cursor: pointer; }
+.rv-lightbox__btn:hover { background: rgba(255,255,255,.22); }
+.rv-lightbox__btn:disabled { opacity: .3; cursor: default; }
+.rv-lightbox__btn[hidden] { display: none; }
+.rv-lightbox__btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.rv-lightbox__btn svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.rv-lightbox__close { top: 16px; right: 16px; }
+.rv-lightbox__prev { left: 16px; top: 50%; transform: translateY(-50%); }
+.rv-lightbox__next { right: 16px; top: 50%; transform: translateY(-50%); }
+@media (max-width: 700px) { .rv-lightbox { padding: 64px 12px; } .rv-lightbox__fig img { max-width: calc(100vw - 24px); } .rv-lightbox__prev, .rv-lightbox__next { top: auto; bottom: 12px; transform: none; } }
+
 </style>
 </head>
 <body>
@@ -2852,6 +2891,7 @@ textarea.fca-field__input { min-height: 96px; resize: vertical; padding-block: v
     <div class="fca-card rv-pop" id="composer" role="dialog" aria-labelledby="composerWhere" hidden>
       <p class="rv-pop__where" id="composerWhere"></p>
       <div class="fca-field rv-field-textarea"><label class="rv-sr" for="composeText">Comment</label><div class="fca-field__control"><textarea class="fca-field__input" id="composeText" rows="3" placeholder="What should change, and why?"></textarea></div></div>
+      <div class="rv-att" id="composerAtt" data-slot="compose"></div>
       <div class="rv-pop__actions"><span class="rv-help">Ctrl+Enter posts</span><button class="fca-btn fca-btn--quiet fca-btn--sm" type="button" data-pop="cancel">Cancel</button><button class="fca-btn fca-btn--primary fca-btn--sm" type="button" data-pop="post">Post</button></div>
     </div>
     <div class="rv-canvas" id="canvas">
@@ -2917,6 +2957,13 @@ textarea.fca-field__input { min-height: 96px; resize: vertical; padding-block: v
     <button class="fca-btn fca-btn--quiet fca-btn--block" type="button" id="confirmNo">Keep it</button>
   </div>
 </div>
+<input type="file" id="attInput" accept="image/*" multiple hidden>
+<div class="rv-lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image" hidden>
+  <figure class="rv-lightbox__fig"><img id="lbImg" alt=""><figcaption class="rv-lightbox__cap" id="lbCap"></figcaption></figure>
+  <button type="button" class="rv-lightbox__btn rv-lightbox__close" id="lbClose" aria-label="Close (Esc)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button type="button" class="rv-lightbox__btn rv-lightbox__prev" id="lbPrev" aria-label="Previous image"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button type="button" class="rv-lightbox__btn rv-lightbox__next" id="lbNext" aria-label="Next image"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+</div>
 <div class="fca-toast fca-toast--no-nav rv-toast" id="toast" role="status" aria-live="polite" hidden><span class="fca-icon" aria-hidden="true" id="toastIcon">check_circle</span><span class="fca-toast__text" id="toastText"></span></div>
 
 <script type="module">
@@ -2975,6 +3022,7 @@ var DRAFT_KEY = "fca-review:draft:"+data.docId;
 var LIVE = window.FCA_LIVE || null;
 var me = (function(){try{return JSON.parse(lsGet("fca-review:me")||"null")}catch(e){return null}})();
 data.pageDone = data.pageDone||[];
+data.images = data.images||[]; // pictures attached to comments and replies, each linked by owner (comment or reply id)
 data.comments.forEach(function(c){if(!c.page)c.page="index"}); // comments from the homepage-only version
 var META = JSON.parse($("#wf-meta").textContent);
 var ASSETS = JSON.parse($("#wf-assets").textContent);
@@ -2983,10 +3031,10 @@ var WF = META.filter(function(p){return !p.proposal}); // the agency's wireframe
 var PAGE_IDX = {}; META.forEach(function(p,i){PAGE_IDX[p.slug]=i});
 function pageMeta(slug){return META[PAGE_IDX[slug]]||{slug:slug,en:slug,hy:""}}
 var startPage = lsGet("fca-review:page"); if(!(startPage in PAGE_IDX))startPage="index";
-var ui = {showResolved: lsGet("fca-review:resolved")==="1", zoom: lsGet("fca-review:zoom")==="100"?"100":"fit", mode:"browse", vp:"desktop", page:startPage, scope:"page", view:"list", selected:null, compose:null, editing:null, confirmDel:null, q:"", f:{status:"",prio:"",cat:"",author:""}};
+var ui = {pend:{compose:[],reply:[],edit:[]}, pendSel:null, editDrop:{}, showResolved: lsGet("fca-review:resolved")==="1", zoom: lsGet("fca-review:zoom")==="100"?"100":"fit", mode:"browse", vp:"desktop", page:startPage, scope:"page", view:"list", selected:null, compose:null, editing:null, confirmDel:null, q:"", f:{status:"",prio:"",cat:"",author:""}};
 var savedHash = stateHash();
 
-function stateHash(){return hash(JSON.stringify([data.comments,data.pageDone]))}
+function stateHash(){return hash(JSON.stringify([data.comments,data.pageDone,data.images.map(function(m){return m.id+(m.deleted?"x":"")})]))}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
 function now(){return new Date().toISOString()}
 function hash(s){var h=0;for(var i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))|0}return h}
@@ -3000,6 +3048,30 @@ function who(p){return p.author+(p.role?" · "+p.role:"")}
 function live(list){return (list||[]).filter(function(x){return !x.deleted})}
 function isMine(p){return me && p.author===me.name}
 function repliesOf(c){return live(c.replies).filter(function(r){return r.kind!=="reaction"})}
+/* ---------- images on comments and replies ---------- */
+var IMG_MAX=4, IMG_SIDE=1600, IMG_LIMIT=850000; // per post; longest side in px; stored size (chars) so each fits one database record
+var SVG_IMG='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5"/></svg>';
+function imagesOf(owner){return data.images.filter(function(m){return m.owner===owner&&!m.deleted}).sort(function(a,b){return a.at<b.at?-1:a.at>b.at?1:((a.n||0)-(b.n||0))})}
+function threadImages(c){return data.images.filter(function(m){return m.cid===c.id&&!m.deleted})}
+function compressImage(file){
+  return new Promise(function(res,rej){
+    var url=URL.createObjectURL(file), im=new Image();
+    im.onload=function(){
+      var w=im.naturalWidth, h=im.naturalHeight, k=Math.min(1,IMG_SIDE/Math.max(w,h)), q=0.86, out=null, tries=0;
+      var cv=document.createElement("canvas"), cx=cv.getContext("2d");
+      do{
+        cv.width=Math.max(1,Math.round(w*k)); cv.height=Math.max(1,Math.round(h*k));
+        cx.fillStyle="#fff"; cx.fillRect(0,0,cv.width,cv.height); cx.drawImage(im,0,0,cv.width,cv.height);
+        out=cv.toDataURL("image/webp",q); if(out.indexOf("data:image/webp")!==0)out=cv.toDataURL("image/jpeg",q);
+        k*=0.8; q=Math.max(0.6,q-0.08); tries++;
+      }while(out.length>IMG_LIMIT&&tries<8);
+      URL.revokeObjectURL(url);
+      out.length>IMG_LIMIT?rej(new Error("too-large")):res({src:out,w:cv.width,h:cv.height});
+    };
+    im.onerror=function(){URL.revokeObjectURL(url);rej(new Error("not-image"))};
+    im.src=url;
+  });
+}
 function reactionsOf(c){var o={agree:[],disagree:[]};live(c.replies).forEach(function(r){if(r.kind==="reaction"&&o[r.value])o[r.value].push(r.author)});return o}
 function reactId(c){return "rx-"+c.id+"-"+Math.abs(hash(me.name)).toString(36)}
 function toggleReaction(c,val){
@@ -3036,6 +3108,9 @@ function mergeInto(base, incoming){
     });
     c.replies.sort(function(a,b){return a.createdAt<b.createdAt?-1:1});
   });
+  base.images=base.images||[];
+  var iById={};base.images.forEach(function(m){iById[m.id]=m});
+  (incoming.images||[]).forEach(function(im){var m=iById[im.id];if(!m){base.images.push(JSON.parse(JSON.stringify(im)));return}if(im.deleted&&!m.deleted){m.deleted=true;m.at2=im.at2;stats.updates++}});
   base.pageDone=base.pageDone||[];
   (incoming.pageDone||[]).forEach(function(d){
     var cur=base.pageDone.filter(function(x){return x.page===d.page&&x.by===d.by})[0];
@@ -3376,11 +3451,13 @@ var composer=$("#composer");
 function openComposer(){
   var d=ui.compose;
   $("#composerWhere").textContent="Comment on "+d.target+" · "+d.section;
+  renderComposerAtt();
   composer.hidden=false; placeComposer(); schedule();
   setTimeout(function(){var t=$("#composeText");t.focus()},20);
 }
 function closeComposer(){ui.compose=null;composer.hidden=true}
-function cancelCompose(){closeComposer();$("#composeText").value="";schedule()}
+function cancelCompose(){closeComposer();$("#composeText").value="";ui.pend.compose=[];renderComposerAtt();schedule()}
+function renderComposerAtt(){$("#composerAtt").innerHTML=attachHTML("compose");if(!composer.hidden)placeComposer()}
 /* the box sits beside the pin, inside the stage, and follows it while the page scrolls */
 function placeComposer(){
   if(!ui.compose||composer.hidden||!fdoc)return;
@@ -3393,7 +3470,7 @@ function placeComposer(){
   top=Math.max(72,Math.min(top,st.height-h-m));
   composer.style.left=left+"px"; composer.style.top=top+"px";
 }
-composer.addEventListener("click",function(e){var b=e.target.closest("[data-pop]");if(!b)return;if(b.dataset.pop==="post")postComment();else cancelCompose()});
+composer.addEventListener("click",function(e){var x=e.target.closest("[data-act]");if(x){attAction(x);return}var b=e.target.closest("[data-pop]");if(!b)return;if(b.dataset.pop==="post")postComment();else cancelCompose()});
 composer.addEventListener("keydown",function(e){
   if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){e.preventDefault();postComment()}
   else if(e.key==="Escape"){e.preventDefault();e.stopPropagation();cancelCompose()}
@@ -3420,6 +3497,7 @@ function render(){
   lastSig=sig;
 }
 function renderInner(){
+  if(ui.pendSel!==ui.selected){ui.pend.reply=[];ui.pendSel=ui.selected}
   fillSelects();
   var list=numbered(), shown=list.filter(passes);
   var onPage=list.filter(function(c){return c.page===ui.page});
@@ -3481,12 +3559,13 @@ function itemHTML(c){
   if(ui.scope==="all")bits2.unshift(esc(c.section));
   var bits3=[];
   if(reps.length)bits3.push(reps.length+(reps.length===1?" reply":" replies"));
+  var nImg=threadImages(c).length; if(nImg)bits3.push('<span class="rv-imgcount">'+SVG_IMG+nImg+(nImg===1?" image":" images")+'</span>');
   if(RX.agree.length)bits3.push('<span class="rv-stance rv-stance--Agree" title="'+esc("Agree: "+RX.agree.join(", "))+'">+'+RX.agree.length+'</span>');
   if(RX.disagree.length)bits3.push('<span class="rv-stance rv-stance--Disagree" title="'+esc("Disagree: "+RX.disagree.join(", "))+'">−'+RX.disagree.length+'</span>');
   return '<button type="button" class="fca-row rv-item'+(res?" is-resolved":"")+(ui.selected===c.id?" is-active":"")+'" data-open="'+c.id+'" aria-label="Comment '+c._n+' by '+esc(c.author)+'">'+
     '<span class="rv-num'+(res?" is-resolved":"")+'" aria-hidden="true">'+c._n+'</span>'+
     '<span class="fca-row__body"><span class="fca-row__meta">'+bits.join(" · ")+'</span>'+
-    '<span class="fca-row__title rv-item__text">'+esc(c.text)+'</span>'+
+    '<span class="fca-row__title rv-item__text">'+(c.text?esc(c.text):'<em class="rv-item__img">Image</em>')+'</span>'+
     (bits2.length?'<span class="fca-row__meta">'+bits2.join(" · ")+'</span>':'')+
     (bits3.length?'<span class="fca-row__meta">'+bits3.join(" · ")+'</span>':'')+'</span>'+
     '<span class="fca-row__end"><span class="fca-badge'+(res?'':' fca-badge--warning')+'">'+(res?"Resolved":"Open")+'</span></span></button>';
@@ -3507,11 +3586,22 @@ function composeHTML(){
     '<button type="button" class="fca-btn fca-btn--primary fca-btn--block" data-act="post">Post comment</button>'+
     '<p class="rv-help">Ctrl+Enter also posts.</p></div></div></section></div>';
 }
+function attachHTML(slot,owner){
+  var have=(owner?imagesOf(owner).filter(function(m){return !ui.editDrop[m.id]}):[]).map(function(m){return {src:m.src,ref:"m:"+m.id}})
+    .concat(ui.pend[slot].map(function(m,i){return {src:m.src,ref:"p:"+i}}));
+  return have.map(function(x,i){return '<span class="rv-att__thumb"><img src="'+x.src+'" alt="Attached image '+(i+1)+'"><button type="button" class="rv-att__x" data-act="att-del" data-slot="'+slot+'" data-ref="'+x.ref+'" aria-label="Remove image '+(i+1)+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button></span>'}).join("")+
+    (have.length<IMG_MAX?'<button type="button" class="rv-att__add" data-act="att-add" data-slot="'+slot+'">'+SVG_IMG+'<span>'+(have.length?'Add another':'Add image')+'</span></button>'+(have.length?'':'<span class="rv-att__hint">or paste a screenshot</span>'):'');
+}
+function imgsHTML(p){
+  var L=imagesOf(p.id); if(!L.length)return "";
+  return '<div class="rv-imgs">'+L.map(function(m,i){return '<button type="button" class="rv-img" data-act="img-open" data-owner="'+p.id+'" data-i="'+i+'" aria-label="Open image '+(i+1)+' of '+L.length+' full size"><img src="'+m.src+'" alt="" loading="lazy"></button>'}).join("")+'</div>';
+}
 function postHTML(p,kind,cid){
   var mine=isMine(p), key=kind+":"+p.id, root=kind==="comment", cls="rv-msg rv-msg--"+(root?"root":"reply");
   if(ui.editing===key){
     return '<li class="'+cls+'">'+av(p.author)+'<div class="rv-post__body" style="gap:var(--space-2)">'+
       '<div class="fca-field rv-field-textarea"><label class="fca-field__label" for="editText">Edit '+(root?"comment":"reply")+'</label><div class="fca-field__control"><textarea class="fca-field__input" id="editText">'+esc(p.text)+'</textarea></div></div>'+
+      '<div class="rv-att" data-slot="edit">'+attachHTML("edit",p.id)+'</div>'+
       '<div class="rv-actions-row"><button type="button" class="fca-btn fca-btn--quiet fca-btn--sm" data-act="edit-cancel">Cancel</button><button type="button" class="fca-btn fca-btn--sm" data-act="edit-save" data-kind="'+kind+'" data-id="'+p.id+'"><span class="fca-icon" aria-hidden="true">check</span>Save changes</button></div></div></li>';
   }
   var c=root?p:byId(cid);
@@ -3519,7 +3609,7 @@ function postHTML(p,kind,cid){
   return '<li class="'+cls+'">'+av(p.author)+'<div class="rv-post__body"><div class="rv-post__head"><span class="rv-post__name">'+esc(who(p))+'</span><span class="rv-post__date">'+fmt(p.createdAt)+(p.updatedAt&&p.updatedAt!==p.createdAt&&!root?" · edited":"")+'</span>'+
     (p.stance&&STANCES.indexOf(p.stance)>=0?'<span class="rv-stance rv-stance--'+esc(p.stance)+'">'+esc(p.stance)+'</span>':'')+
     (tools?'<span class="rv-post__tools" aria-label="'+(root?"Comment":"Reply")+' actions">'+tools+'</span>':'')+'</div>'+
-    '<p class="rv-post__text">'+esc(p.text)+'</p>'+
+    (p.text?'<p class="rv-post__text">'+esc(p.text)+'</p>':'')+imgsHTML(p)+
     (root?'<div class="rv-post__bar">'+reactHTML(c)+'</div>':'')+
     (mine&&ui.confirmDel===key?confirmHTML(p,kind):'')+
     '</div></li>';
@@ -3559,6 +3649,7 @@ function detailHTML(c){
         reps.map(function(r){return postHTML(r,"reply",c.id)}).join("")+
         '<li class="rv-msg rv-msg--compose">'+(me?av(me.name):'<span class="fca-avatar fca-avatar--general rv-av" aria-hidden="true">?</span>')+
           '<div class="rv-post__body"><div class="fca-field rv-field-textarea"><label class="fca-field__label" for="replyText">Reply'+(reps.length?" · "+reps.length+(reps.length===1?" reply so far":" replies so far"):"")+'</label><div class="fca-field__control"><textarea class="fca-field__input" id="replyText" placeholder="Add your view on this comment"></textarea></div></div>'+
+          '<div class="rv-att" data-slot="reply">'+attachHTML("reply")+'</div>'+
           '<button type="button" class="fca-btn fca-btn--primary fca-btn--block" data-act="reply">Reply</button></div></li>'+
       '</ol>'+
     '</article></div>';
@@ -3576,19 +3667,26 @@ body.addEventListener("click",function(e){
     render();return;
   }
   var a=t.dataset.act, c=byId(ui.selected);
+  if(a==="att-add"||a==="att-del"||a==="img-open"){attAction(t);return}
   if(a==="cancel")cancelCompose();
   else if(a==="post")postComment();
   else if(a==="back"){ui.view="list";ui.selected=null;render();schedule()}
   else if(a==="locate"&&c)scrollToComment(c);
   else if(a==="toggle-status"&&c){if(!me){askName();return}c.status=c.status==="Resolved"?"Open":"Resolved";c.statusBy=me.name;c.statusAt=now();changed();schedule();if(c.status==="Resolved"&&!ui.showResolved)toast("Resolved. It's hidden from the list now; Show resolved brings it back.")}
   else if(a==="reply")postReply();
-  else if(a==="edit"){ui.editing=t.dataset.key;ui.confirmDel=null;render();var et=$("#editText");if(et){et.focus()}}
-  else if(a==="edit-cancel"){ui.editing=null;render()}
+  else if(a==="edit"){ui.editing=t.dataset.key;ui.confirmDel=null;ui.pend.edit=[];ui.editDrop={};render();var et=$("#editText");if(et){et.focus()}}
+  else if(a==="edit-cancel"){ui.editing=null;ui.pend.edit=[];ui.editDrop={};render()}
   else if(a==="edit-save"){
-    var txt=$("#editText").value.trim(); if(!txt)return;
+    var txt=$("#editText").value.trim();
     var target=t.dataset.kind==="comment"?c:live(c.replies).filter(function(r){return r.id===t.dataset.id})[0];
-    if(target){target.text=txt;target.updatedAt=now();}
-    ui.editing=null;changed();
+    var keepImgs=target?imagesOf(target.id).filter(function(m){return !ui.editDrop[m.id]}).length+ui.pend.edit.length:0;
+    if(!txt&&!keepImgs){$("#editText").focus();return}
+    if(target){
+      target.text=txt;target.updatedAt=now();
+      imagesOf(target.id).forEach(function(m){if(ui.editDrop[m.id]){m.deleted=true;m.at2=now()}});
+      commitImages("edit",target.id,c.id);
+    }
+    ui.editing=null;ui.editDrop={};changed();
   }
   else if(a==="del-ask"){ui.confirmDel=t.dataset.kind+":"+t.dataset.id;ui.editing=null;render();var k=$("#keepBtn");if(k)k.focus()}
   else if(a==="del-cancel"){ui.confirmDel=null;render()}
@@ -3619,11 +3717,11 @@ body.addEventListener("keydown",function(e){
 });
 function postComment(){
   var d=ui.compose, txt=$("#composeText").value.trim();
-  if(!txt){$("#composeText").focus();return}
+  if(!txt&&!ui.pend.compose.length){$("#composeText").focus();return}
   var t=now();
   var c={id:uid(),author:me.name,role:me.role||"",createdAt:t,updatedAt:t,text:txt,category:d.category,priority:d.priority,
     status:"Open",statusBy:me.name,statusAt:t,page:d.page,viewport:d.viewport,section:d.section,target:d.target,anchor:d.anchor,replies:[]};
-  data.comments.push(c); closeComposer(); $("#composeText").value=""; ui.selected=c.id; ui.view="list";
+  data.comments.push(c); commitImages("compose",c.id,c.id); closeComposer(); $("#composeText").value=""; renderComposerAtt(); ui.selected=c.id; ui.view="list";
   changed(); schedule();
   // stay on the list: show the new comment in place, marked, so the rest stays in view
   var n=(numbered().filter(function(x){return x.id===c.id})[0]||{})._n;
@@ -3633,12 +3731,68 @@ function postComment(){
 function postReply(){
   if(!me){askName();return}
   var c=byId(ui.selected), txt=$("#replyText").value.trim(); if(!c)return;
-  if(!txt){$("#replyText").focus();return}
-  var t=now(); $("#replyText").value="";
-  (c.replies=c.replies||[]).push({id:uid(),author:me.name,role:me.role||"",createdAt:t,updatedAt:t,text:txt,stance:null});
+  if(!txt&&!ui.pend.reply.length){$("#replyText").focus();return}
+  var t=now(), rid=uid(); $("#replyText").value="";
+  (c.replies=c.replies||[]).push({id:rid,author:me.name,role:me.role||"",createdAt:t,updatedAt:t,text:txt,stance:null});
+  commitImages("reply",rid,c.id);
   ui.replyStance=null; changed();
   body.scrollTop=body.scrollHeight;
 }
+
+/* image attachments: add (button, paste, drop), remove, open full size */
+var attSlot=null;
+function slotOf(el){if(!el||!el.closest)return null;var s=el.closest("[data-slot]");if(s)return s.dataset.slot;
+  if(el.closest(".rv-msg--compose"))return "reply"; var li=el.closest(".rv-msg");if(li&&li.querySelector("#editText"))return "edit";
+  if(el&&el.id==="composeText")return "compose"; if(el&&el.id==="replyText")return "reply"; if(el&&el.id==="editText")return "edit"; return null}
+function attCount(slot){var own=slot==="edit"&&ui.editing?imagesOf(ui.editing.split(":")[1]).filter(function(m){return !ui.editDrop[m.id]}).length:0;return own+ui.pend[slot].length}
+function refreshSlot(slot){if(slot==="compose")renderComposerAtt();else render()}
+function addFiles(slot,files){
+  files=Array.prototype.slice.call(files||[]);
+  if(!me){askName();return}
+  if(LIVE&&LV.imgDenied){toast("Images can't be shared yet: the review database needs a settings update.",true);return}
+  files=Array.prototype.filter.call(files||[],function(f){return /^image\//.test(f.type)});
+  if(!files.length){toast("Only images can be attached.",true);return}
+  var room=IMG_MAX-attCount(slot); if(room<=0){toast("Up to "+IMG_MAX+" images per comment.",true);return}
+  if(files.length>room)toast("Only "+room+" more image"+(room===1?"":"s")+" fit"+(room===1?"s":"")+" in this comment.",true);
+  files.slice(0,room).reduce(function(pr,f){return pr.then(function(){return compressImage(f).then(function(m){ui.pend[slot].push(m);refreshSlot(slot)},function(err){toast(err.message==="too-large"?"That image is too large to attach. Try a smaller screenshot.":"That file couldn't be read as an image.",true)})})},Promise.resolve());
+}
+function commitImages(slot,owner,cid){
+  var t=now();
+  ui.pend[slot].forEach(function(m,i){data.images.push({id:uid()+i,n:i,owner:owner,cid:cid,src:m.src,w:m.w,h:m.h,by:me.name,at:t})});
+  ui.pend[slot]=[];
+}
+function attAction(t){
+  var a=t.dataset.act, slot=t.dataset.slot;
+  if(a==="att-add"){attSlot=slot;$("#attInput").click();return}
+  if(a==="att-del"){var r=t.dataset.ref.split(":");if(r[0]==="p")ui.pend[slot].splice(+r[1],1);else ui.editDrop[r[1]]=1;refreshSlot(slot);return}
+  if(a==="img-open")openLightbox(t.dataset.owner,+t.dataset.i);
+}
+$("#attInput").addEventListener("change",function(e){var f=Array.prototype.slice.call(e.target.files||[]);e.target.value="";if(attSlot&&f.length)addFiles(attSlot,f)});
+document.addEventListener("paste",function(e){
+  var slot=slotOf(document.activeElement); if(!slot)return;
+  var files=Array.prototype.filter.call((e.clipboardData&&e.clipboardData.files)||[],function(f){return /^image\//.test(f.type)});
+  if(!files.length)return; e.preventDefault(); addFiles(slot,files);
+});
+[composer,body].forEach(function(zone){
+  zone.addEventListener("dragover",function(e){var s=slotOf(e.target)||(zone===composer?"compose":null);if(!s||!e.dataTransfer||[].indexOf.call(e.dataTransfer.types,"Files")<0)return;e.preventDefault();var el=zone===composer?composer:e.target.closest(".rv-post__body");if(el)el.classList.add("is-drop")});
+  zone.addEventListener("dragleave",function(e){var el=e.target.closest&&e.target.closest(".is-drop");if(el&&!el.contains(e.relatedTarget))el.classList.remove("is-drop")});
+  zone.addEventListener("drop",function(e){var s=slotOf(e.target)||(zone===composer?"compose":null);$$(".is-drop").forEach(function(x){x.classList.remove("is-drop")});if(!s||!e.dataTransfer||!e.dataTransfer.files.length)return;e.preventDefault();addFiles(s,e.dataTransfer.files)});
+});
+var lb={list:[],i:0,owner:null}, lbox=$("#lightbox"), lbBack=null;
+function openLightbox(owner,i){lb.owner=owner;lb.list=imagesOf(owner);if(!lb.list.length)return;lb.i=i;lbBack=document.activeElement;lbox.hidden=false;showLb();$("#lbClose").focus()}
+function showLb(){var m=lb.list[lb.i];$("#lbImg").src=m.src;$("#lbImg").alt="Image "+(lb.i+1)+" attached by "+m.by;
+  $("#lbCap").textContent=m.by+" · "+fmt(m.at)+(lb.list.length>1?" · "+(lb.i+1)+" of "+lb.list.length:"");
+  $("#lbPrev").hidden=$("#lbNext").hidden=lb.list.length<2; $("#lbPrev").disabled=lb.i===0; $("#lbNext").disabled=lb.i===lb.list.length-1}
+function closeLb(){lbox.hidden=true;$("#lbImg").removeAttribute("src");if(lbBack&&lbBack.focus)lbBack.focus()}
+$("#lbClose").addEventListener("click",closeLb);
+$("#lbPrev").addEventListener("click",function(){if(lb.i>0){lb.i--;showLb()}});
+$("#lbNext").addEventListener("click",function(){if(lb.i<lb.list.length-1){lb.i++;showLb()}});
+lbox.addEventListener("click",function(e){if(e.target===lbox||e.target.classList.contains("rv-lightbox__fig"))closeLb()});
+document.addEventListener("keydown",function(e){if(lbox.hidden)return;
+  if(e.key==="Escape"){e.preventDefault();e.stopImmediatePropagation();closeLb()}
+  else if(e.key==="ArrowLeft"){e.preventDefault();e.stopImmediatePropagation();$("#lbPrev").click()}
+  else if(e.key==="ArrowRight"){e.preventDefault();e.stopImmediatePropagation();$("#lbNext").click()}
+  else if(e.key==="ArrowUp"||e.key==="ArrowDown"){e.stopImmediatePropagation()}},true);
 
 /* filters */
 $("#filterBtn").addEventListener("click",function(){var f=$("#filters"),open=f.hidden;f.hidden=!open;this.setAttribute("aria-expanded",String(open))});
@@ -3812,11 +3966,11 @@ $("#importInput").addEventListener("change",function(e){
 $("#csvBtn").addEventListener("click",function(){
   var list=numbered();
   if(!list.length){toast("There are no comments to export yet.");return}
-  var rows=[["#","Page","Page (hy)","Section","Element","Viewport","Category","Priority","Status","Author","Role","Date","Comment","Replies","Agree","Disagree"]];
+  var rows=[["#","Page","Page (hy)","Section","Element","Viewport","Category","Priority","Status","Author","Role","Date","Comment","Replies","Agree","Disagree","Images"]];
   list.forEach(function(c){
     var reps=repliesOf(c), RX=reactionsOf(c);
     rows.push([c._n,pageMeta(c.page).en,pageMeta(c.page).hy,c.section,c.target,VPS[c.viewport]?VPS[c.viewport].label:c.viewport,c.category,c.priority,c.status,c.author,c.role||"",fmt(c.createdAt),c.text,
-      reps.map(function(r){return r.author+" ("+fmt(r.createdAt)+")"+(r.stance?" ["+r.stance+"]":"")+": "+r.text}).join("\n"),RX.agree.length?RX.agree.length+": "+RX.agree.join(", "):"",RX.disagree.length?RX.disagree.length+": "+RX.disagree.join(", "):""]);
+      reps.map(function(r){return r.author+" ("+fmt(r.createdAt)+")"+(r.stance?" ["+r.stance+"]":"")+": "+r.text}).join("\n"),RX.agree.length?RX.agree.length+": "+RX.agree.join(", "):"",RX.disagree.length?RX.disagree.length+": "+RX.disagree.join(", "):"",threadImages(c).length||""]);
   });
   var csv="﻿"+rows.map(function(r){return r.map(function(v){v=String(v==null?"":v);return /[",\n\r;]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}).join(",")}).join("\r\n");
   download(new Blob([csv],{type:"text/csv;charset=utf-8"}),"FCA-Wireframe-Review_comments_"+fileStamp()+".csv");
@@ -3872,6 +4026,7 @@ function connect(){
     LV.key=r.key;
     return waitBackend().then(function(B){return B.ready.then(function(){
       COLLS.forEach(function(coll){B.subscribe(LV.key,coll,function(docs){LV.remote[coll]=docs;onRemote()},function(err){setLive("error",err)})});
+      B.subscribe(LV.key,"images",function(docs){LV.imgReady=true;LV.imgDenied=false;onImages(docs)},function(err){LV.imgDenied=true;console.warn("FCA review: images",err)});
     })});
   }).catch(function(err){LV.key=null;setLive("error",err)});
 }
@@ -3892,8 +4047,15 @@ function onRemote(){
   render(); schedule();
   if(fresh.length)toast(fresh.length===1?fresh[0]:fresh.length+" new comments and replies from others");
 }
+function onImages(docs){
+  var mine={};data.images.forEach(function(m){mine[m.id]=m}); // images are never removed from the database, so any not listed yet are still on their way
+  data.images=Object.keys(docs).map(function(id){var m=clean(docs[id]);m.id=id;LV.sent["images/"+id]=canon(docs[id]);delete mine[id];return m});
+  Object.keys(mine).forEach(function(id){data.images.push(mine[id])}); // ones still on their way out
+  render();
+}
 function docsFromData(){
-  var out={comments:{},replies:{},pageDone:{}};
+  var out={comments:{},replies:{},pageDone:{},images:{}};
+  (data.images||[]).forEach(function(m){var o=clean(m);delete o.id;out.images[m.id]=o});
   data.comments.forEach(function(c){
     var o={};Object.keys(c).forEach(function(k){if(k!=="replies"&&k.charAt(0)!=="_")o[k]=c[k]});out.comments[c.id]=clean(o);
     (c.replies||[]).forEach(function(r){var ro=clean(r);ro.commentId=c.id;out.replies[r.id]=ro});
@@ -3904,11 +4066,13 @@ function docsFromData(){
 function syncOut(){
   if(!LV.ready||!LV.key)return;
   var D=docsFromData(), B=window.FCA_BACKEND;
-  COLLS.forEach(function(coll){Object.keys(D[coll]).forEach(function(id){
+  COLLS.concat(LV.imgReady?["images"]:[]).forEach(function(coll){Object.keys(D[coll]).forEach(function(id){
     var k=coll+"/"+id, s=canon(D[coll][id]); if(LV.sent[k]===s)return;
     LV.sent[k]=s; LV.pending++; if(LV.state!=="offline")setLive("saving");
     B.write(LV.key,coll,id,JSON.parse(s)).then(function(){LV.pending--;if(!LV.pending&&LV.state!=="offline")setLive("saved")},
-      function(err){LV.pending--;delete LV.sent[k];setLive("error",err)});
+      function(err){LV.pending--;delete LV.sent[k];
+        if(coll==="images"&&err&&/permission/i.test(err.code||"")){setLive(navigator.onLine?"saved":"offline");toast("Images can't be saved yet: the review database needs a settings update.",true);return}
+        setLive("error",err)});
   })});
 }
 window.addEventListener("online",function(){if(LIVE&&LV.ready)setLive(LV.pending?"saving":"saved")});
@@ -3933,7 +4097,7 @@ function startLive(){
   });
 }
 $("#backupBtn").addEventListener("click",function(){
-  var b={schema:1,docId:data.docId,exportedAt:now(),exportedBy:me?me.name:"",comments:data.comments,pageDone:data.pageDone,saves:[]};
+  var b={schema:1,docId:data.docId,exportedAt:now(),exportedBy:me?me.name:"",comments:data.comments,pageDone:data.pageDone,images:data.images,saves:[]};
   download(new Blob([JSON.stringify(b,null,1)],{type:"application/json"}),"FCA-Wireframe-Review_backup_"+fileStamp()+".json");
   toast("Backup downloaded");
 });
