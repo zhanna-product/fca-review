@@ -2750,7 +2750,13 @@ textarea.fca-field__input { min-height: 96px; resize: vertical; padding-block: v
 .rv-react__btn:hover { background: var(--surface-muted); }
 .rv-react__btn:active { transform: scale(.97); }
 .rv-react__btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-.rv-react__sym { font-size: 18px; line-height: 1; }
+.rv-react__ic { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; flex: none; }
+.rv-react__btn { padding: 0 12px; font-size: 13px; }
+.rv-react__n { min-width: 18px; padding: 0 5px; border-radius: var(--radius-full); background: var(--surface-muted); font-size: 12px; line-height: 18px; text-align: center; }
+.rv-react__btn.is-on .rv-react__n { background: var(--surface); }
+.rv-react__btn--agree.is-on .rv-react__ic { fill: currentColor; fill-opacity: .18; }
+.rv-react__btn--disagree.is-on .rv-react__ic { fill: currentColor; fill-opacity: .18; }
+.rv-react__who { margin: var(--space-1) 0 0; font-size: 12px; line-height: 16px; color: var(--ink-3); }
 .rv-react__btn--agree.is-on { background: var(--action-soft); border-color: var(--action); color: var(--on-action-soft); }
 .rv-react__btn--disagree.is-on { background: var(--warning-soft); border-color: var(--warning); color: var(--warning); }
 .rv-react__btn[data-tip]:hover::after, .rv-react__btn[data-tip]:focus-visible::after { content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); z-index: 5; max-width: 260px; width: max-content; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); background: var(--inverse); color: var(--on-inverse); font-size: 12px; line-height: 16px; font-weight: 600; white-space: normal; text-align: left; box-shadow: var(--shadow-float); pointer-events: none; }
@@ -2834,6 +2840,157 @@ textarea.fca-field__input { min-height: 96px; resize: vertical; padding-block: v
 .rv-lightbox__prev { left: 16px; top: 50%; transform: translateY(-50%); }
 .rv-lightbox__next { right: 16px; top: 50%; transform: translateY(-50%); }
 @media (max-width: 700px) { .rv-lightbox { padding: 64px 12px; } .rv-lightbox__fig img { max-width: calc(100vw - 24px); } .rv-lightbox__prev, .rv-lightbox__next { top: auto; bottom: 12px; transform: none; } }
+.rv-post__bar { flex-wrap: wrap; } .rv-post__bar .rv-react__who { flex: 0 0 100%; margin-top: 0; }
+
+/* updates for you */
+.rv-updbtn { position: relative; gap: 6px; }
+.rv-updbtn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; }
+.rv-updbtn__n { min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--radius-full); background: var(--warning); color: var(--white); font-size: 12px; line-height: 20px; font-weight: 600; text-align: center; font-variant-numeric: tabular-nums; }
+.rv-updbtn__n[hidden] { display: none; }
+.rv-menu--updates { top: 64px; left: auto; right: var(--space-4); width: 400px; max-height: min(620px, calc(100vh - 96px)); padding: 0; display: flex; flex-direction: column; }
+.rv-upd__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding: var(--space-4) var(--space-4) var(--space-2); border-bottom: 1px solid var(--line); }
+.rv-upd__title { font-size: 16px; line-height: 22px; font-weight: 600; }
+.rv-upd__list { overflow: auto; padding: var(--space-1); }
+.rv-upd__empty { padding: var(--space-4); color: var(--ink-2); font-size: 14px; line-height: 20px; }
+.rv-upd__item { position: relative; display: flex; gap: var(--space-2); align-items: flex-start; width: 100%; padding: 10px var(--space-2) 10px var(--space-2); border: 0; border-radius: var(--radius-md); background: transparent; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.rv-upd__item:hover { background: var(--surface-muted); }
+.rv-upd__item:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.rv-upd__item.is-unread { background: var(--action-soft); }
+.rv-upd__item.is-unread:hover { background: var(--action-soft-pressed); }
+.rv-upd__body { display: grid; gap: 2px; min-width: 0; flex: 1; padding-right: var(--space-4); }
+.rv-upd__line { font-size: 14px; line-height: 20px; font-weight: 400; }
+.rv-upd__line b { font-weight: 600; }
+.rv-upd__snip { font-size: 13px; line-height: 18px; color: var(--ink-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.rv-upd__meta { font-size: 12px; line-height: 16px; color: var(--ink-3); }
+.rv-upd__dot { position: absolute; top: 16px; right: 12px; width: 8px; height: 8px; border-radius: 50%; background: var(--action); }
+
+/* quick filters */
+.rv-quick { display: flex; flex-wrap: wrap; gap: 6px; }
+.rv-quick:empty { display: none; }
+.rv-quick__chip { min-height: 32px; font-size: 13px; }
+.rv-quick__chip.is-zero { color: var(--ink-3); }
+.rv-quick__n { margin-left: 4px; min-width: 18px; padding: 0 5px; border-radius: var(--radius-full); background: var(--surface-muted); font-size: 12px; line-height: 18px; text-align: center; font-variant-numeric: tabular-nums; }
+.rv-quick__chip[aria-pressed="true"] .rv-quick__n { background: var(--surface); color: var(--action); }
+
+/* resolve with a note */
+.rv-resolve { display: grid; gap: var(--space-2); margin-top: var(--space-2); padding: var(--space-4); border-radius: var(--radius-md); background: var(--surface-muted); }
+.rv-resolve__opt { font-weight: 400; color: var(--ink-3); }
+.rv-post__badge { min-height: 20px; padding: 0 8px; font-size: 12px; }
+.rv-quick { align-items: center; }
+.rv-quick__label { font-size: 12px; font-weight: 600; color: var(--ink-3); margin-right: 2px; }
+.rv-quick__hint { flex: 0 0 100%; margin: 2px 0 0; font-size: 12px; line-height: 16px; color: var(--ink-2); }
+.rv-quick__hint .rv-link { font-size: 12px; }
+.rv-quick__chip { padding-inline: 12px; }
+.rv-quick__label { flex: 0 0 100%; margin: 0 0 -2px; }
+
+/* ===== panel, cleaner (Nov 14) ===== */
+.rv-panel__head { gap: var(--space-2); padding: var(--space-4) var(--space-4) 12px; }
+.rv-ph1 { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.rv-ph__title { margin: 0; font-size: 20px; line-height: 26px; font-weight: 600; }
+.rv-ph__title .rv-count { color: var(--ink-3); font-weight: 400; }
+.rv-scope { flex: none; padding: 3px; min-height: 0; }
+.rv-scope .fca-segmented__opt { min-height: 30px; padding: 0 12px; font-size: 13px; }
+.rv-ph2 { display: flex; align-items: center; gap: 4px; }
+.rv-ph2 .rv-quick { flex: 1; min-width: 0; flex-wrap: nowrap; gap: 5px; }
+.rv-quick__chip { min-height: 30px; padding-inline: 10px; font-size: 13px; white-space: nowrap; }
+.rv-quick__chip .fca-chip__check { display: none; }
+.rv-quick__n { margin-left: 2px; }
+.rv-quick__hint { margin: 0; font-size: 12px; line-height: 16px; color: var(--ink-2); }
+.rv-quick__hint[hidden] { display: none; }
+.rv-icobtn { position: relative; flex: none; display: grid; place-items: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: var(--radius-full); background: transparent; color: var(--ink-2); cursor: pointer; }
+.rv-icobtn:hover { background: var(--surface-muted); color: var(--ink); }
+.rv-icobtn[aria-expanded="true"] { background: var(--surface-muted); color: var(--ink); }
+.rv-icobtn:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.rv-icobtn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.rv-icobtn--sm { width: 28px; height: 28px; }
+.rv-icobtn--sm svg { width: 16px; height: 16px; }
+.rv-icobtn__n { position: absolute; top: 1px; right: 0; min-width: 15px; height: 15px; padding: 0 4px; border-radius: var(--radius-full); background: var(--action); color: var(--on-action); font-size: 10px; line-height: 15px; font-weight: 700; }
+.rv-icobtn__n[hidden] { display: none; }
+.rv-search { display: flex; align-items: center; gap: var(--space-2); height: 40px; padding: 0 4px 0 12px; border: 1px solid var(--input); border-radius: var(--radius-full); color: var(--ink-3); }
+.rv-search[hidden] { display: none; }
+.rv-search:focus-within { border-color: var(--action); box-shadow: 0 0 0 3px var(--ring); }
+.rv-search > svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; flex: none; }
+.rv-search__input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 15px; color: var(--ink); }
+.rv-search__input::-webkit-search-cancel-button { display: none; }
+.rv-progress { flex: none; font-size: 13px; color: var(--ink-3); white-space: nowrap; text-align: right; }
+
+/* list */
+.rv-list { background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: var(--space-1) 0 var(--space-2); overflow: hidden; }
+.rv-list__group { padding: 12px var(--space-4) 2px; font-size: 12px; line-height: 16px; font-weight: 600; color: var(--ink-3); }
+.rv-list__items { list-style: none; margin: 0; padding: 0; }
+.rv-item { display: flex; gap: 12px; align-items: flex-start; width: 100%; padding: 10px var(--space-4); border: 0; background: transparent; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.rv-item:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.rv-item .rv-num--sm { min-width: 26px; height: 26px; font-size: 12px; margin-top: 1px; }
+.rv-item__body { display: grid; gap: 3px; min-width: 0; flex: 1; }
+.rv-item__meta { display: flex; align-items: center; gap: 5px; font-size: 12px; line-height: 16px; color: var(--ink-3); min-width: 0; }
+.rv-item__meta b { color: var(--ink-2); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rv-newdot { width: 7px; height: 7px; border-radius: 50%; background: var(--action); flex: none; }
+.rv-item__res { margin-left: auto; min-height: 20px; padding: 0 8px; font-size: 11px; }
+.rv-item__text { font-size: 15px; line-height: 21px; -webkit-line-clamp: 2; }
+.rv-item__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; font-size: 12px; line-height: 16px; color: var(--ink-3); }
+.rv-item__foot .rv-stance { font-size: 12px; }
+.rv-sep { color: var(--line-strong); }
+.rv-prio { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.rv-prio::before { content: ""; width: 7px; height: 7px; border-radius: 50%; }
+.rv-prio--High { color: var(--danger); } .rv-prio--High::before { background: var(--danger); }
+.rv-prio--Medium { color: var(--on-attention); } .rv-prio--Medium::before { background: var(--attention); }
+.rv-prio--Low { color: var(--ink-3); } .rv-prio--Low::before { background: var(--line-strong); }
+.rv-resfoot { margin: var(--space-2) var(--space-4) 0; padding-top: 10px; border-top: 1px solid var(--line); font-size: 13px; color: var(--ink-3); }
+.rv-resfoot .rv-link { font-size: 13px; }
+
+/* thread */
+.rv-thread__top { display: flex; flex-direction: row; align-items: center; gap: 6px; padding: 8px 8px 8px var(--space-4); border-bottom: 1px solid var(--line); }
+.rv-thread__top .rv-num--sm { min-width: 24px; height: 24px; font-size: 12px; }
+.rv-thread__where { flex: 1; min-width: 0; font-size: 13px; line-height: 18px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rv-vpbadge { min-height: 20px; padding: 0 8px; font-size: 11px; }
+.rv-resbtn { flex: none; display: inline-flex; align-items: center; gap: 5px; height: 30px; padding: 0 10px; border: 1px solid var(--line); border-radius: var(--radius-full); background: var(--surface); color: var(--ink); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.rv-resbtn:hover { background: var(--surface-muted); }
+.rv-resbtn:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.rv-resbtn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.rv-more { margin: 8px var(--space-4) 0; padding: 12px; border-radius: var(--radius-md); background: var(--surface-muted); display: grid; gap: 10px; }
+.rv-more__row { display: grid; gap: 6px; }
+.rv-more__label { font-size: 12px; font-weight: 600; color: var(--ink-3); }
+.rv-more__opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.rv-opt { height: 28px; padding: 0 10px; border: 1px solid var(--line); border-radius: var(--radius-full); background: var(--surface); font: inherit; font-size: 13px; font-weight: 600; color: var(--ink-2); cursor: pointer; }
+.rv-opt.is-on { background: var(--action); border-color: var(--action); color: var(--on-action); }
+.rv-opt:focus-visible, .rv-more__item:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.rv-more__sep { height: 1px; background: var(--line); }
+.rv-more__item { justify-self: start; border: 0; background: transparent; padding: 2px 0; font: inherit; font-size: 14px; font-weight: 600; color: var(--ink); cursor: pointer; }
+.rv-more__item--warn { color: var(--danger); }
+.rv-thread .rv-resolve { margin: 8px var(--space-4) 0; }
+.rv-thread__note { margin: 8px var(--space-4) 0; font-size: 12px; color: var(--ink-3); }
+.rv-thread__list { padding-top: 12px; }
+.rv-msg--root .rv-post__text { font-size: 16px; line-height: 24px; }
+.rv-post__head { flex-wrap: nowrap; align-items: baseline; min-width: 0; }
+.rv-post__name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.rv-post__date { white-space: nowrap; }
+.rv-replywrap { display: grid; gap: var(--space-2); padding: 4px var(--space-4) var(--space-4); }
+.rv-replybar { display: flex; align-items: flex-end; gap: 4px; padding: 4px 4px 4px 14px; border: 1px solid var(--input); border-radius: 22px; background: var(--surface); }
+.rv-replybar:focus-within { border-color: var(--action); box-shadow: 0 0 0 3px var(--ring); }
+.rv-replybar textarea { flex: 1; min-width: 0; min-height: 32px; max-height: 220px; padding: 6px 0; border: 0; outline: 0; resize: none; background: transparent; font: inherit; font-size: 15px; line-height: 20px; color: var(--ink); overflow-y: auto; }
+.rv-replybar textarea::placeholder { color: var(--placeholder); }
+.rv-send { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 50%; background: var(--action); color: var(--on-action); cursor: pointer; }
+.rv-send:hover { background: var(--action-pressed); }
+.rv-send:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.rv-send svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.rv-replywrap.is-drop { outline: 2px dashed var(--action); outline-offset: -2px; }
+#doneBtn .rv-progress { margin-left: 6px; padding: 0 7px; border-radius: var(--radius-full); background: var(--surface); color: var(--ink-3); font-size: 12px; line-height: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+#doneBtn .rv-progress:empty { display: none; }
+#doneBtn[aria-pressed="true"] .rv-progress { color: var(--action); }
+.rv-ph2 .rv-quick { overflow-x: auto; scrollbar-width: none; }
+.rv-ph2 .rv-quick::-webkit-scrollbar { display: none; }
+.rv-quick__chip { padding-inline: 9px; font-size: 12.5px; flex: none; }
+.rv-thread__where { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 17px; }
+.rv-quick__chip { padding-inline: 8px; gap: 2px; } .rv-quick__n { margin-left: 1px; padding: 0 4px; min-width: 16px; } .rv-ph2 { gap: 2px; } .rv-ph2 .rv-quick { gap: 4px; }
+
+/* @mentions */
+.rv-mention { color: var(--on-action-soft); font-weight: 600; }
+.rv-mention.is-me { background: var(--action-soft); border-radius: 4px; padding: 0 3px; }
+.rv-mpop { position: fixed; z-index: 120; padding: 4px; box-shadow: var(--shadow-float); }
+.rv-mpop[hidden] { display: none; }
+.rv-mpop__head { margin: 0; padding: 6px 8px 4px; font-size: 12px; font-weight: 600; color: var(--ink-3); }
+.rv-mpop__item { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 40px; padding: 4px 8px; border: 0; border-radius: var(--radius-sm); background: transparent; font: inherit; font-size: 14px; font-weight: 600; color: var(--ink); text-align: left; cursor: pointer; }
+.rv-mpop__item.is-on, .rv-mpop__item:hover { background: var(--action-soft); }
 
 </style>
 </head>
@@ -2846,11 +3003,13 @@ textarea.fca-field__input { min-height: 96px; resize: vertical; padding-block: v
       <span class="fca-brandmark__name">Wireframe review</span>
     </div>
     <div class="fca-appbar__actions rv-actions">
+      <button class="fca-btn fca-btn--secondary fca-btn--sm rv-updbtn" type="button" id="updBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="updPop" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0112 0v5.5l1.5 2h-15l1.5-2z"/><path d="M10 20.5a2 2 0 004 0"/></svg><span>Updates</span><span class="rv-updbtn__n" id="updN" hidden></span></button>
       <button class="fca-btn fca-btn--secondary fca-btn--sm rv-menubtn" type="button" id="menuBtn" aria-haspopup="true" aria-expanded="false" aria-controls="appMenu" aria-label="Your name and more options"><span class="fca-avatar fca-avatar--general rv-av rv-av--sm" id="meAv" aria-hidden="true">?</span><span class="fca-icon" aria-hidden="true">keyboard_arrow_down</span></button>
       <button class="fca-btn fca-btn--primary fca-btn--sm" type="button" id="saveBtn" title="Save a copy of this file with every comment inside (Ctrl+S)"><span class="rv-dirty" aria-hidden="true"></span>Save reviewed copy</button>
       <span class="fca-badge rv-livebadge" id="liveBadge" role="status" hidden><span class="fca-icon" aria-hidden="true" id="liveIcon">cloud_done</span><span id="liveText">Connecting</span></span>
       <input type="file" id="importInput" accept=".html,.htm,.json" multiple hidden>
     </div>
+    <div class="fca-card rv-menu rv-menu--updates" id="updPop" role="dialog" aria-label="Updates for you" hidden></div>
     <div class="fca-card rv-menu rv-menu--app" id="appMenu" role="menu" hidden>
       <div class="rv-menu__me"><span class="fca-avatar fca-avatar--general rv-av" id="meAv2" aria-hidden="true">?</span><div class="rv-menu__t"><span class="rv-menu__en" id="meName">Your name</span><span class="rv-menu__hy" id="meRole">Reviewer</span></div></div>
       <button class="rv-menu__item" type="button" role="menuitem" id="meBtn"><span class="fca-icon" aria-hidden="true">edit</span><span class="rv-menu__t"><span class="rv-menu__en">Change your name</span></span></button>
@@ -2886,11 +3045,11 @@ textarea.fca-field__input { min-height: 96px; resize: vertical; padding-block: v
       </div>
       <span class="rv-vp" id="vpInfo" hidden></span>
       <span class="rv-hint"></span>
-      <button class="fca-chip" type="button" id="doneBtn" aria-pressed="false" title="Mark that you have finished reviewing this page"><span class="fca-icon fca-chip__check" aria-hidden="true">check</span><span id="doneLbl">Mark page reviewed</span></button>
+      <button class="fca-chip" type="button" id="doneBtn" aria-pressed="false" title="Mark that you have finished reviewing this page"><span class="fca-icon fca-chip__check" aria-hidden="true">check</span><span id="doneLbl">Mark page reviewed</span><span class="rv-progress" id="progress"></span></button>
     </div>
     <div class="fca-card rv-pop" id="composer" role="dialog" aria-labelledby="composerWhere" hidden>
       <p class="rv-pop__where" id="composerWhere"></p>
-      <div class="fca-field rv-field-textarea"><label class="rv-sr" for="composeText">Comment</label><div class="fca-field__control"><textarea class="fca-field__input" id="composeText" rows="3" placeholder="What should change, and why?"></textarea></div></div>
+      <div class="fca-field rv-field-textarea"><label class="rv-sr" for="composeText">Comment</label><div class="fca-field__control"><textarea class="fca-field__input" id="composeText" rows="3" placeholder="What should change, and why? Type @ to ask someone"></textarea></div></div>
       <div class="rv-att" id="composerAtt" data-slot="compose"></div>
       <div class="rv-pop__actions"><span class="rv-help">Ctrl+Enter posts</span><button class="fca-btn fca-btn--quiet fca-btn--sm" type="button" data-pop="cancel">Cancel</button><button class="fca-btn fca-btn--primary fca-btn--sm" type="button" data-pop="post">Post</button></div>
     </div>
@@ -2906,22 +3065,20 @@ textarea.fca-field__input { min-height: 96px; resize: vertical; padding-block: v
 
   <aside class="rv-panel" aria-label="Comments">
     <div class="rv-panel__head" id="panelHead">
-      <div class="fca-section__head rv-panel__title">
-        <h2 class="fca-section__title">Comments <span class="rv-count" id="count">0</span></h2>
-        <span class="rv-progress" id="progress"></span>
-      </div>
-      <div class="fca-segmented" role="radiogroup" aria-label="Show comments for">
-        <button class="fca-segmented__opt" type="button" role="radio" aria-checked="true" data-scope="page">This page</button>
-        <button class="fca-segmented__opt" type="button" role="radio" aria-checked="false" data-scope="all">All pages</button>
-      </div>
-      <button class="rv-link rv-resolved" type="button" id="resolvedBtn" hidden></button>
-      <div class="rv-tools">
-        <div class="fca-field">
-          <label class="fca-field__label" for="search">Search</label>
-          <div class="fca-field__control"><span class="fca-icon fca-field__affix" aria-hidden="true">search</span><input class="fca-field__input" id="search" type="search" placeholder="Comments and replies"></div>
+      <div class="rv-ph1">
+        <h2 class="rv-ph__title">Comments <span class="rv-count" id="count">0</span></h2>
+        <div class="fca-segmented rv-scope" role="radiogroup" aria-label="Show comments for">
+          <button class="fca-segmented__opt" type="button" role="radio" aria-checked="true" data-scope="page">This page</button>
+          <button class="fca-segmented__opt" type="button" role="radio" aria-checked="false" data-scope="all">All pages</button>
         </div>
-        <button class="fca-btn fca-btn--secondary" type="button" id="filterBtn" aria-expanded="false" aria-controls="filters">Filters</button>
       </div>
+      <div class="rv-ph2">
+        <div class="rv-quick" id="quick" role="group" aria-label="Show only"></div>
+        <button class="rv-icobtn" type="button" id="searchBtn" aria-label="Search comments" aria-expanded="false" aria-controls="searchRow" title="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></button>
+        <button class="rv-icobtn" type="button" id="filterBtn" aria-label="Filters" aria-expanded="false" aria-controls="filters" title="Filters"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M7 12h10M10 17h4"/></svg><span class="rv-icobtn__n" id="filterN" hidden></span></button>
+      </div>
+      <p class="rv-quick__hint" id="quickHint" hidden></p>
+      <div class="rv-search" id="searchRow" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><label class="rv-sr" for="search">Search comments and replies</label><input class="rv-search__input" id="search" type="search" placeholder="Search comments and replies" autocomplete="off"><button class="rv-icobtn rv-icobtn--sm" type="button" id="searchClose" aria-label="Close search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button></div>
       <div class="rv-filters" id="filters" hidden>
         <div class="fca-field"><label class="fca-field__label" for="fStatus">Status</label><div class="fca-field__control"><select class="fca-field__input" id="fStatus"><option value="">All</option><option>Open</option><option>Resolved</option></select><span class="fca-icon fca-field__affix" aria-hidden="true">keyboard_arrow_down</span></div></div>
         <div class="fca-field"><label class="fca-field__label" for="fPrio">Priority</label><div class="fca-field__control"><select class="fca-field__input" id="fPrio"><option value="">Any</option><option>High</option><option>Medium</option><option>Low</option></select><span class="fca-icon fca-field__affix" aria-hidden="true">keyboard_arrow_down</span></div></div>
@@ -2964,6 +3121,7 @@ textarea.fca-field__input { min-height: 96px; resize: vertical; padding-block: v
   <button type="button" class="rv-lightbox__btn rv-lightbox__prev" id="lbPrev" aria-label="Previous image"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
   <button type="button" class="rv-lightbox__btn rv-lightbox__next" id="lbNext" aria-label="Next image"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
 </div>
+<div class="fca-card rv-mpop" id="mentionPop" role="listbox" aria-label="People to mention" hidden></div>
 <div class="fca-toast fca-toast--no-nav rv-toast" id="toast" role="status" aria-live="polite" hidden><span class="fca-icon" aria-hidden="true" id="toastIcon">check_circle</span><span class="fca-toast__text" id="toastText"></span></div>
 
 <script type="module">
@@ -3031,7 +3189,7 @@ var WF = META.filter(function(p){return !p.proposal}); // the agency's wireframe
 var PAGE_IDX = {}; META.forEach(function(p,i){PAGE_IDX[p.slug]=i});
 function pageMeta(slug){return META[PAGE_IDX[slug]]||{slug:slug,en:slug,hy:""}}
 var startPage = lsGet("fca-review:page"); if(!(startPage in PAGE_IDX))startPage="index";
-var ui = {pend:{compose:[],reply:[],edit:[]}, pendSel:null, editDrop:{}, showResolved: lsGet("fca-review:resolved")==="1", zoom: lsGet("fca-review:zoom")==="100"?"100":"fit", mode:"browse", vp:"desktop", page:startPage, scope:"page", view:"list", selected:null, compose:null, editing:null, confirmDel:null, q:"", f:{status:"",prio:"",cat:"",author:""}};
+var ui = {more:null, quick:"", resolving:null, pend:{compose:[],reply:[],edit:[]}, pendSel:null, editDrop:{}, showResolved: lsGet("fca-review:resolved")==="1", zoom: lsGet("fca-review:zoom")==="100"?"100":"fit", mode:"browse", vp:"desktop", page:startPage, scope:"page", view:"list", selected:null, compose:null, editing:null, confirmDel:null, q:"", f:{status:"",prio:"",cat:"",author:""}};
 var savedHash = stateHash();
 
 function stateHash(){return hash(JSON.stringify([data.comments,data.pageDone,data.images.map(function(m){return m.id+(m.deleted?"x":"")})]))}
@@ -3048,8 +3206,118 @@ function who(p){return p.author+(p.role?" · "+p.role:"")}
 function live(list){return (list||[]).filter(function(x){return !x.deleted})}
 function isMine(p){return me && p.author===me.name}
 function repliesOf(c){return live(c.replies).filter(function(r){return r.kind!=="reaction"})}
+/* ---------- @mentions ---------- */
+function people(){ // everyone who has taken part, most recent first
+  var seen={}, out=[];
+  var add=function(n,at){if(!n)return;if(!seen[n]||seen[n]<at)seen[n]=at||""};
+  live(data.comments).forEach(function(c){add(c.author,c.createdAt);live(c.replies).forEach(function(r){add(r.author,r.updatedAt)})});
+  (data.pageDone||[]).forEach(function(d){add(d.by,d.at)});
+  Object.keys(seen).forEach(function(n){out.push(n)});
+  return out.sort(function(a,b){return seen[a]<seen[b]?1:-1});
+}
+function mentionsIn(text){ // names mentioned as "@Full Name"
+  if(!text||text.indexOf("@")<0)return [];
+  return people().sort(function(a,b){return b.length-a.length}).filter(function(n){
+    var i=text.indexOf("@"+n); if(i<0)return false; var ch=text.charAt(i+n.length+1); return !ch||!/[\wԱ-և]/.test(ch);
+  });
+}
+function mentionsMe(text){return !!me&&mentionsIn(text).indexOf(me.name)>=0}
+function richText(text){
+  var h=esc(text), names=mentionsIn(text);
+  names.forEach(function(n){var t=esc("@"+n);h=h.split(t).join('\u0000'+n+'\u0001')});
+  return h.replace(/\u0000([^\u0001]*)\u0001/g,function(m,n){return '<span class="rv-mention'+(me&&n===me.name?' is-me':'')+'">@'+n+'</span>'});
+}
+
+/* ---------- updates for you: replies, resolves and reactions on threads you wrote or joined ---------- */
+var UPD_PAGE="__updates__"; // the reader's "seen" state is kept as one extra record next to their page-reviewed marks
+var SVG_BELL='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0112 0v5.5l1.5 2h-15l1.5-2z"/><path d="M10 20.5a2 2 0 004 0"/></svg>';
+function updRec(){if(!me)return null;return data.pageDone.filter(function(x){return x.page===UPD_PAGE&&x.by===me.name})[0]||null}
+function joinedAt(c){ // when I joined this thread (wrote, replied or was mentioned), or null
+  if(!me)return null; var t=c.author===me.name?c.createdAt:null;
+  if(!t&&c.author!==me.name&&mentionsMe(c.text))t=c.createdAt;
+  repliesOf(c).forEach(function(r){if((r.author===me.name||mentionsMe(r.text))&&(!t||r.createdAt<t))t=r.createdAt});
+  return t;
+}
+function lastSpeaker(c){var R=repliesOf(c);return R.length?R[R.length-1].author:c.author}
+function updatesFor(){
+  if(!me)return [];
+  var out=[];
+  numbered().forEach(function(c){
+    var since=joinedAt(c), noted={};
+    if(c.author!==me.name&&mentionsMe(c.text))out.push({id:"c:"+c.id,at:c.createdAt,who:c.author,c:c,kind:"mention",text:c.text});
+    if(since){
+      repliesOf(c).forEach(function(r){
+        if(r.author===me.name)return;
+        if(mentionsMe(r.text)){out.push({id:"r:"+r.id,at:r.createdAt,who:r.author,c:c,kind:"mention",text:r.text,img:imagesOf(r.id).length});return}
+        if(r.createdAt<=since)return;
+        if(r.action==="resolved")noted[r.createdAt]=1;
+        out.push({id:"r:"+r.id,at:r.createdAt,who:r.author,c:c,kind:r.action==="resolved"?"resolved":"reply",text:r.text,img:imagesOf(r.id).length});
+      });
+      if(c.statusBy&&c.statusBy!==me.name&&c.statusAt&&c.statusAt>since&&c.statusAt!==c.createdAt&&!noted[c.statusAt])
+        out.push({id:"s:"+c.id+":"+c.statusAt,at:c.statusAt,who:c.statusBy,c:c,kind:c.status==="Resolved"?"resolved":"reopened"});
+    }
+    if(c.author===me.name)live(c.replies).forEach(function(r){if(r.kind==="reaction"&&r.value&&r.author!==me.name)out.push({id:"x:"+r.id+":"+r.value,at:r.updatedAt,who:r.author,c:c,kind:r.value})});
+  });
+  var rec=updRec(), seen=(rec&&rec.seenAt)||"", read=(rec&&rec.read)||[];
+  out.forEach(function(u){u.unread=u.at>seen&&read.indexOf(u.id)<0});
+  return out.sort(function(a,b){return a.at<b.at?1:a.at>b.at?-1:0});
+}
+function saveUpd(fn){
+  if(!me)return; var rec=updRec();
+  if(!rec){rec={page:UPD_PAGE,by:me.name,done:false,at:now(),seenAt:"",read:[]};data.pageDone.push(rec)}
+  rec.read=rec.read||[]; fn(rec); if(rec.read.length>300)rec.read=rec.read.slice(-300); rec.at=now(); changed();
+}
+function markRead(id){saveUpd(function(r){if(r.read.indexOf(id)<0)r.read.push(id)})}
+function markAllRead(){saveUpd(function(r){r.seenAt=now();r.read=[]})}
+function unreadThreads(){var o={};updatesFor().forEach(function(u){if(u.unread)o[u.c.id]=1});return o}
+// [key, label, what it shows]; "new for you" lives in the Updates bell, so it isn't repeated here
+var UNREAD={};
+var QUICK=[["reply","Waiting for you","Open comments where someone answered you and you haven't replied yet"],
+           ["mine","Yours","Comments you wrote"],
+           ["split","Disputed","Comments that have both Agree and Disagree"]];
+function quickPass(c,q,U){
+  if(!me)return true;
+  if(q==="mine")return c.author===me.name;
+  if(q==="reply")return c.status!=="Resolved"&&!!joinedAt(c)&&lastSpeaker(c)!==me.name;
+
+  if(q==="unread")return !!(U||unreadThreads())[c.id]||isNew(c);
+  if(q==="split"){var R=reactionsOf(c);return R.agree.length>0&&R.disagree.length>0}
+  return true;
+}
+function ago(iso){
+  var d=(Date.now()-new Date(iso).getTime())/60000;
+  if(d<1)return "just now"; if(d<60)return Math.floor(d)+" min ago"; if(d<1440)return Math.floor(d/60)+" h ago";
+  if(d<2880)return "yesterday"; return fmt(iso).replace(/, \d\d:\d\d$/,"");
+}
+function updHTML(U){
+  var n=U.filter(function(u){return u.unread}).length;
+  var out='<div class="rv-upd__head"><span class="rv-upd__title">Updates for you'+(n?' · '+n+' new':'')+'</span>'+(n?'<button type="button" class="rv-link" data-upd="all">Mark all as read</button>':'')+'</div>';
+  if(!U.length)return out+'<p class="rv-upd__empty">Nothing yet. Replies, resolves and reactions on comments you wrote or replied to will show up here.</p>';
+  return out+'<div class="rv-upd__list">'+U.slice(0,60).map(function(u){
+    var mineC=u.c.author===me.name, N=u.c._n;
+    var verb={reply:"replied to "+(mineC?"your comment ":"comment ")+N,resolved:"resolved "+(mineC?"your comment ":"comment ")+N,reopened:"reopened comment "+N,
+      agree:"agrees with your comment "+N,disagree:"disagrees with your comment "+N,mention:"mentioned you in comment "+N}[u.kind];
+    var snip=u.text?u.text:(u.img?"Sent "+(u.img===1?"an image":u.img+" images"):(u.kind==="agree"||u.kind==="disagree"||u.kind==="resolved"||u.kind==="reopened"?u.c.text:""));
+    if(snip.length>110)snip=snip.slice(0,108)+"…";
+    return '<button type="button" class="rv-upd__item'+(u.unread?' is-unread':'')+'" data-upd-open="'+u.c.id+'" data-upd-id="'+esc(u.id)+'">'+av(u.who,true)+
+      '<span class="rv-upd__body"><span class="rv-upd__line"><b>'+esc(u.who)+'</b> '+esc(verb)+'</span>'+
+      (snip?'<span class="rv-upd__snip">'+(u.kind==="reply"||u.kind==="mention"||u.kind==="resolved"&&u.text?'“'+esc(snip)+'”':esc(snip))+'</span>':'')+
+      '<span class="rv-upd__meta">'+esc(pageMeta(u.c.page).en)+' · '+ago(u.at)+'</span></span>'+(u.unread?'<span class="rv-upd__dot" aria-label="New"></span>':'')+'</button>';
+  }).join("")+'</div>';
+}
+function renderQuick(scoped,U){
+  var q=$("#quick"); if(!me){q.innerHTML="";$("#quickHint").hidden=true;return}
+  var active=QUICK.filter(function(x){return x[0]===ui.quick})[0], h=$("#quickHint");
+  h.hidden=!active; h.innerHTML=active?esc(active[2])+'. <button type="button" class="rv-link" data-quick="'+active[0]+'">Show all</button>':'';
+  q.innerHTML=QUICK.map(function(x){
+    var n=scoped.filter(function(c){return quickPass(c,x[0],U)&&(x[0]==="unread"||ui.showResolved||c.status!=="Resolved")}).length, on=ui.quick===x[0];
+    return '<button type="button" class="fca-chip rv-quick__chip'+(n||on?'':' is-zero')+'" data-quick="'+x[0]+'" aria-pressed="'+on+'" title="'+esc(x[2])+'"><span class="fca-icon fca-chip__check" aria-hidden="true">check</span>'+x[1]+(n?'<span class="rv-quick__n">'+n+'</span>':'')+'</button>';
+  }).join("");
+}
+
 /* ---------- images on comments and replies ---------- */
 var IMG_MAX=4, IMG_SIDE=1600, IMG_LIMIT=850000; // per post; longest side in px; stored size (chars) so each fits one database record
+var SVG_PIN='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.6-6-10.5a6 6 0 0112 0C18 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2"/></svg>', SVG_CHECK='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></svg>', SVG_MORE='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18" cy="12" r="1.3"/></svg>', SVG_SEND='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>';
 var SVG_IMG='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5"/></svg>';
 function imagesOf(owner){return data.images.filter(function(m){return m.owner===owner&&!m.deleted}).sort(function(a,b){return a.at<b.at?-1:a.at>b.at?1:((a.n||0)-(b.n||0))})}
 function threadImages(c){return data.images.filter(function(m){return m.cid===c.id&&!m.deleted})}
@@ -3079,14 +3347,20 @@ function toggleReaction(c,val){
   if(!r){r={id:id,kind:"reaction",author:me.name,role:me.role||"",createdAt:t,updatedAt:t,text:"",value:null};(c.replies=c.replies||[]).push(r)}
   r.value=r.value===val?null:val; r.updatedAt=t;
 }
+function reactWho(R){
+  var part=function(n,verb1,verbN){return n.length?esc(n.length<=3?n.join(", "):n.slice(0,2).join(", ")+" and "+(n.length-2)+" more")+" "+(n.length===1?verb1:verbN):""};
+  var a=part(R.agree,"agrees","agree"), d=part(R.disagree,"disagrees","disagree");
+  return a||d?'<p class="rv-react__who">'+[a,d].filter(Boolean).join(" · ")+'</p>':"";
+}
 function reactHTML(c){
   var R=reactionsOf(c);
   return '<div class="rv-react" role="group" aria-label="Reactions">'+["agree","disagree"].map(function(v){
     var names=R[v], on=!!(me&&names.indexOf(me.name)>=0), label=v==="agree"?"Agree":"Disagree";
     var tip=names.length?label+": "+names.join(", "):label;
     return '<button type="button" class="rv-react__btn rv-react__btn--'+v+(on?" is-on":"")+'" data-act="react" data-val="'+v+'" aria-pressed="'+on+'" aria-label="'+esc(tip)+'" data-tip="'+esc(tip)+'">'+
-      '<span class="rv-react__sym" aria-hidden="true">'+(v==="agree"?"+":"−")+'</span>'+(names.length?'<span class="rv-react__n">'+names.length+'</span>':'')+'</button>';
-  }).join("")+'</div>';
+      '<svg class="rv-react__ic" viewBox="0 0 24 24" aria-hidden="true">'+(v==="agree"?'<path d="M7 11v9H4v-9h3zm0 0l4-7c1.3 0 2.2 1.1 2 2.4L12.5 10H18a2 2 0 012 2.3l-1.1 6A2 2 0 0117 20H7"/>':'<path d="M17 13V4h3v9h-3zm0 0l-4 7c-1.3 0-2.2-1.1-2-2.4l.5-3.6H6a2 2 0 01-2-2.3l1.1-6A2 2 0 017 4h10"/>')+'</svg>'+
+      '<span>'+label+'</span>'+(names.length?'<span class="rv-react__n">'+names.length+'</span>':'')+'</button>';
+  }).join("")+'</div>'+reactWho(R);
 }
 
 /* ---------- merge (used for drafts and for copies sent back by reviewers) ---------- */
@@ -3115,7 +3389,7 @@ function mergeInto(base, incoming){
   (incoming.pageDone||[]).forEach(function(d){
     var cur=base.pageDone.filter(function(x){return x.page===d.page&&x.by===d.by})[0];
     if(!cur)base.pageDone.push(JSON.parse(JSON.stringify(d)));
-    else if(d.at>cur.at){cur.done=d.done;cur.at=d.at}
+    else if(d.at>cur.at){cur.done=d.done;cur.at=d.at;if(d.seenAt!=null)cur.seenAt=d.seenAt;if(d.read)cur.read=d.read.slice()}
   });
   (base.comments||[]).forEach(function(c){if(!c.page)c.page="index"});
   var seen={};base.saves.forEach(function(s){seen[s.by+s.at]=1});
@@ -3145,7 +3419,8 @@ function passes(c){
   var f=ui.f;
   if(ui.scope==="page"&&c.page!==ui.page)return false;
   if(f.status&&c.status!==f.status)return false;
-  if(!f.status&&!ui.showResolved&&c.status==="Resolved")return false;
+  if(!f.status&&!ui.showResolved&&c.status==="Resolved"&&ui.quick!=="unread")return false;
+  if(ui.quick&&!quickPass(c,ui.quick))return false;
   if(f.prio&&c.priority!==f.prio)return false;
   if(f.cat&&c.category!==f.cat)return false;
   if(f.author&&c.author!==f.author&&!live(c.replies).some(function(r){return r.author===f.author}))return false;
@@ -3439,7 +3714,7 @@ document.addEventListener("keydown",onKey);
 ========================================================= */
 var body=$("#panelBody");
 function select(id,scroll){
-  ui.selected=id; ui.view="detail"; ui.editing=null; ui.confirmDel=null;
+  ui.selected=id; ui.view="detail"; ui.editing=null; ui.confirmDel=null; ui.resolving=null; ui.more=null;
   var c=byId(id);
   if(c&&scroll&&c.viewport!==ui.vp&&VPS[c.viewport]){setVp(c.viewport);toast("Switched to "+VPS[c.viewport].label+", where this comment was made.")}
   if(c&&c.page!==ui.page){if(scroll)pendingScroll=c.id;goPage(c.page,{keepSelection:true});return}
@@ -3486,14 +3761,17 @@ function fillSelects(){
 }
 
 var lastSig="";
+function autoGrow(el){if(!el)return;el.style.height="auto";el.style.height=Math.min(el.scrollHeight,220)+"px"}
+body.addEventListener("input",function(e){if(e.target.id==="replyText")autoGrow(e.target)});
 function render(){
   var sig=ui.view+"|"+ui.selected+"|"+ui.editing, kept={}, top=body.scrollTop;
-  ["replyText","composeText","editText"].forEach(function(id){var el=document.getElementById(id);if(el)kept[id]={v:el.value,f:document.activeElement===el,s:el.selectionStart,e:el.selectionEnd}});
+  ["replyText","composeText","editText","resolveText"].forEach(function(id){var el=document.getElementById(id);if(el)kept[id]={v:el.value,f:document.activeElement===el,s:el.selectionStart,e:el.selectionEnd}});
   renderInner();
   if(sig===lastSig){
     Object.keys(kept).forEach(function(id){var k=kept[id],el=document.getElementById(id);if(!el)return;el.value=k.v;if(k.f){el.focus();try{el.setSelectionRange(k.s,k.e)}catch(e){}}});
     body.scrollTop=top;
   }
+  autoGrow(document.getElementById("replyText"));
   lastSig=sig;
 }
 function renderInner(){
@@ -3504,8 +3782,11 @@ function renderInner(){
   $("#count").textContent=ui.scope==="page"?onPage.length:list.length;
   $$("[data-scope]").forEach(function(b){b.setAttribute("aria-checked",String(b.dataset.scope===ui.scope))});
   renderPageNav(list);
-  var resN=(ui.scope==="page"?onPage:list).filter(function(c){return c.status==="Resolved"}).length, rb=$("#resolvedBtn");
-  rb.hidden=!resN||!!ui.f.status; rb.textContent=ui.showResolved?"Hide resolved":"Show "+resN+" resolved";
+  var U=updatesFor(), unreadN=U.filter(function(u){return u.unread}).length;
+  $("#updBtn").hidden=!me; $("#updN").hidden=!unreadN; $("#updN").textContent=unreadN>99?"99+":unreadN;
+  $("#updBtn").setAttribute("aria-label","Updates for you"+(unreadN?", "+unreadN+" new":""));
+  var up=$("#updPop"); if(!up.hidden)up.innerHTML=updHTML(U);
+  UNREAD=unreadThreads(); renderQuick(ui.scope==="page"?onPage:list,UNREAD);
   $("#panelHead").style.display=ui.view==="list"?"":"none";
   if(ui.view==="detail"&&byId(ui.selected)&&!byId(ui.selected).deleted)body.innerHTML=detailHTML(byId(ui.selected));
   else {ui.view="list";body.innerHTML=listHTML(list,shown)}
@@ -3520,14 +3801,18 @@ function listHTML(list,shown){
     '<button class="fca-btn fca-btn--sm" type="button" data-act="start-comment"><span class="fca-icon" aria-hidden="true">add_comment</span>Start commenting</button></div></div>';
   if(!shown.length){
     var hiddenRes=scoped.filter(function(c){return c.status==="Resolved"}).length;
-    if(!ui.q&&!ui.f.prio&&!ui.f.cat&&!ui.f.author&&!ui.f.status&&!ui.showResolved&&hiddenRes===scoped.length)
+    if(!ui.quick&&!ui.q&&!ui.f.prio&&!ui.f.cat&&!ui.f.author&&!ui.f.status&&!ui.showResolved&&hiddenRes===scoped.length)
       return '<div class="fca-card"><div class="fca-empty"><span class="fca-empty__icon" aria-hidden="true"><span class="fca-icon">check_circle</span></span><p class="fca-empty__title">Everything here is resolved</p><p class="fca-empty__text">'+hiddenRes+' resolved comment'+(hiddenRes===1?' is':'s are')+' hidden.</p><button class="fca-btn fca-btn--sm" type="button" data-act="show-resolved">Show resolved</button></div></div>';
+    if(ui.quick&&!ui.q&&!ui.f.prio&&!ui.f.cat&&!ui.f.author&&!ui.f.status){
+      var qt={reply:["Nothing is waiting for you","Open comments where someone answered you last show up here."],unread:["You're all caught up","New replies, resolves and reactions for you show up here."],mine:["You haven't commented here yet","Switch to Comment and click anything on the page."],split:["Nothing disputed","Comments with both Agree and Disagree show up here."]}[ui.quick];
+      return '<div class="fca-card"><div class="fca-empty"><span class="fca-empty__icon" aria-hidden="true"><span class="fca-icon">check_circle</span></span><p class="fca-empty__title">'+qt[0]+'</p><p class="fca-empty__text">'+qt[1]+(ui.scope==="page"?' Try All pages.':'')+'</p><button class="fca-btn fca-btn--sm" type="button" data-act="quick-clear">Show all comments</button></div></div>';
+    }
     return '<div class="fca-card"><div class="fca-empty"><span class="fca-empty__icon" aria-hidden="true"><span class="fca-icon">search</span></span><p class="fca-empty__title">Nothing matches</p><p class="fca-empty__text">Clear the search or the filters to see every comment.</p></div></div>';
   }
-  var G=groupsOf(shown);
-  return '<div class="fca-card">'+G.map(function(g){
-    return '<div class="fca-list__group">'+esc(g.label)+' · '+g.items.length+'</div><ul class="fca-list">'+g.items.map(function(c){return '<li>'+itemHTML(c)+'</li>'}).join("")+'</ul>';
-  }).join("")+'</div>';
+  var G=groupsOf(shown), resN=ui.f.status||ui.quick==="unread"?0:scoped.filter(function(c){return c.status==="Resolved"}).length;
+  return '<div class="rv-list">'+G.map(function(g){
+    return '<div class="rv-list__group">'+esc(g.label)+'</div><ul class="rv-list__items">'+g.items.map(function(c){return '<li>'+itemHTML(c)+'</li>'}).join("")+'</ul>';
+  }).join("")+(resN?'<p class="rv-resfoot">'+(ui.showResolved?resN+' resolved comment'+(resN===1?'':'s')+' shown · <button type="button" class="rv-link" data-act="hide-resolved">Hide</button>':resN+' resolved comment'+(resN===1?'':'s')+' hidden · <button type="button" class="rv-link" data-act="show-resolved">Show</button>')+'</p>':'')+'</div>';
 }
 function groupsOf(shown){
   var groups={}, order;
@@ -3547,28 +3832,22 @@ function stepComment(d){
   var n=i<0?(d>0?0:L.length-1):i+d; if(n<0||n>=L.length)return;
   select(L[n].id,true);
 }
+function shortDate(iso){var d=new Date(iso);return isNaN(d)?"":d.getDate()+" "+MONTHS[d.getMonth()]}
 function itemHTML(c){
-  var reps=repliesOf(c), RX=reactionsOf(c);
-  var res=c.status==="Resolved";
-  var bits=[esc(c.author),fmt(c.createdAt)];
-  if(isNew(c))bits.push('<span class="rv-new">New</span>');
-  var bits2=[];
-  if(c.priority)bits2.push('<span class="rv-dot rv-dot--'+esc(c.priority)+'" aria-hidden="true"></span>'+esc(c.priority)+' priority');
-  if(c.category)bits2.push(esc(c.category));
-  if(c.viewport!=="desktop")bits2.push(esc(VPS[c.viewport]?VPS[c.viewport].label:c.viewport));
-  if(ui.scope==="all")bits2.unshift(esc(c.section));
-  var bits3=[];
-  if(reps.length)bits3.push(reps.length+(reps.length===1?" reply":" replies"));
-  var nImg=threadImages(c).length; if(nImg)bits3.push('<span class="rv-imgcount">'+SVG_IMG+nImg+(nImg===1?" image":" images")+'</span>');
-  if(RX.agree.length)bits3.push('<span class="rv-stance rv-stance--Agree" title="'+esc("Agree: "+RX.agree.join(", "))+'">+'+RX.agree.length+'</span>');
-  if(RX.disagree.length)bits3.push('<span class="rv-stance rv-stance--Disagree" title="'+esc("Disagree: "+RX.disagree.join(", "))+'">−'+RX.disagree.length+'</span>');
-  return '<button type="button" class="fca-row rv-item'+(res?" is-resolved":"")+(ui.selected===c.id?" is-active":"")+'" data-open="'+c.id+'" aria-label="Comment '+c._n+' by '+esc(c.author)+'">'+
-    '<span class="rv-num'+(res?" is-resolved":"")+'" aria-hidden="true">'+c._n+'</span>'+
-    '<span class="fca-row__body"><span class="fca-row__meta">'+bits.join(" · ")+'</span>'+
-    '<span class="fca-row__title rv-item__text">'+(c.text?esc(c.text):'<em class="rv-item__img">Image</em>')+'</span>'+
-    (bits2.length?'<span class="fca-row__meta">'+bits2.join(" · ")+'</span>':'')+
-    (bits3.length?'<span class="fca-row__meta">'+bits3.join(" · ")+'</span>':'')+'</span>'+
-    '<span class="fca-row__end"><span class="fca-badge'+(res?'':' fca-badge--warning')+'">'+(res?"Resolved":"Open")+'</span></span></button>';
+  var reps=repliesOf(c), RX=reactionsOf(c), res=c.status==="Resolved", fresh=isNew(c)||!!UNREAD[c.id];
+  var foot=[];
+  if(c.priority)foot.push('<span class="rv-prio rv-prio--'+esc(c.priority)+'">'+esc(c.priority)+'</span>');
+  if(ui.scope==="all")foot.push(esc(c.section));
+  if(c.viewport!=="desktop")foot.push(esc(VPS[c.viewport]?VPS[c.viewport].label:c.viewport));
+  if(reps.length)foot.push(reps.length+(reps.length===1?" reply":" replies"));
+  if(RX.agree.length)foot.push('<span class="rv-stance rv-stance--Agree" title="'+esc("Agree: "+RX.agree.join(", "))+'">'+RX.agree.length+' agree</span>');
+  if(RX.disagree.length)foot.push('<span class="rv-stance rv-stance--Disagree" title="'+esc("Disagree: "+RX.disagree.join(", "))+'">'+RX.disagree.length+' disagree</span>');
+  var nImg=threadImages(c).length; if(nImg)foot.push('<span class="rv-imgcount">'+SVG_IMG+nImg+'</span>');
+  return '<button type="button" class="rv-item'+(res?" is-resolved":"")+(ui.selected===c.id?" is-active":"")+'" data-open="'+c.id+'" aria-label="Comment '+c._n+' by '+esc(c.author)+(fresh?', new activity':'')+(res?', resolved':'')+'">'+
+    '<span class="rv-num rv-num--sm'+(res?" is-resolved":"")+'" aria-hidden="true">'+c._n+'</span>'+
+    '<span class="rv-item__body"><span class="rv-item__meta"><b>'+esc(c.author)+'</b> · <span title="'+esc(fmt(c.createdAt))+'">'+shortDate(c.createdAt)+'</span>'+(fresh?'<span class="rv-newdot" aria-hidden="true"></span>':'')+(res?'<span class="fca-badge rv-item__res">Resolved</span>':'')+'</span>'+
+    '<span class="rv-item__text">'+(c.text?richText(c.text):'<em class="rv-item__img">Image</em>')+'</span>'+
+    (foot.length?'<span class="rv-item__foot">'+foot.join('<span class="rv-sep" aria-hidden="true">·</span>')+'</span>':'')+'</span></button>';
 }
 function chipsHTML(name,opts,val,radio,label){
   return '<div class="fca-chips"'+(radio?' role="radiogroup"':' role="group"')+(label?' aria-label="'+esc(label)+'"':'')+'>'+opts.map(function(o){
@@ -3586,11 +3865,11 @@ function composeHTML(){
     '<button type="button" class="fca-btn fca-btn--primary fca-btn--block" data-act="post">Post comment</button>'+
     '<p class="rv-help">Ctrl+Enter also posts.</p></div></div></section></div>';
 }
-function attachHTML(slot,owner){
+function attachHTML(slot,owner,thumbsOnly){
   var have=(owner?imagesOf(owner).filter(function(m){return !ui.editDrop[m.id]}):[]).map(function(m){return {src:m.src,ref:"m:"+m.id}})
     .concat(ui.pend[slot].map(function(m,i){return {src:m.src,ref:"p:"+i}}));
   return have.map(function(x,i){return '<span class="rv-att__thumb"><img src="'+x.src+'" alt="Attached image '+(i+1)+'"><button type="button" class="rv-att__x" data-act="att-del" data-slot="'+slot+'" data-ref="'+x.ref+'" aria-label="Remove image '+(i+1)+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button></span>'}).join("")+
-    (have.length<IMG_MAX?'<button type="button" class="rv-att__add" data-act="att-add" data-slot="'+slot+'">'+SVG_IMG+'<span>'+(have.length?'Add another':'Add image')+'</span></button>'+(have.length?'':'<span class="rv-att__hint">or paste a screenshot</span>'):'');
+    (!thumbsOnly&&have.length<IMG_MAX?'<button type="button" class="rv-att__add" data-act="att-add" data-slot="'+slot+'">'+SVG_IMG+'<span>'+(have.length?'Add another':'Add image')+'</span></button>'+(have.length?'':'<span class="rv-att__hint">or paste a screenshot</span>'):'');
 }
 function imgsHTML(p){
   var L=imagesOf(p.id); if(!L.length)return "";
@@ -3605,11 +3884,12 @@ function postHTML(p,kind,cid){
       '<div class="rv-actions-row"><button type="button" class="fca-btn fca-btn--quiet fca-btn--sm" data-act="edit-cancel">Cancel</button><button type="button" class="fca-btn fca-btn--sm" data-act="edit-save" data-kind="'+kind+'" data-id="'+p.id+'"><span class="fca-icon" aria-hidden="true">check</span>Save changes</button></div></div></li>';
   }
   var c=root?p:byId(cid);
-  var tools=mine&&ui.confirmDel!==key?'<button type="button" class="rv-link" data-act="edit" data-key="'+key+'">Edit</button><button type="button" class="rv-link rv-link--warn" data-act="del-ask" data-kind="'+kind+'" data-id="'+p.id+'">Delete</button>':'';
+  var tools=mine&&!root&&ui.confirmDel!==key?'<button type="button" class="rv-link" data-act="edit" data-key="'+key+'">Edit</button><button type="button" class="rv-link rv-link--warn" data-act="del-ask" data-kind="'+kind+'" data-id="'+p.id+'">Delete</button>':'';
   return '<li class="'+cls+'">'+av(p.author)+'<div class="rv-post__body"><div class="rv-post__head"><span class="rv-post__name">'+esc(who(p))+'</span><span class="rv-post__date">'+fmt(p.createdAt)+(p.updatedAt&&p.updatedAt!==p.createdAt&&!root?" · edited":"")+'</span>'+
+    (p.action==="resolved"?'<span class="fca-badge fca-badge--brand rv-post__badge">Resolved</span>':'')+
     (p.stance&&STANCES.indexOf(p.stance)>=0?'<span class="rv-stance rv-stance--'+esc(p.stance)+'">'+esc(p.stance)+'</span>':'')+
     (tools?'<span class="rv-post__tools" aria-label="'+(root?"Comment":"Reply")+' actions">'+tools+'</span>':'')+'</div>'+
-    (p.text?'<p class="rv-post__text">'+esc(p.text)+'</p>':'')+imgsHTML(p)+
+    (p.text?'<p class="rv-post__text">'+richText(p.text)+'</p>':'')+imgsHTML(p)+
     (root?'<div class="rv-post__bar">'+reactHTML(c)+'</div>':'')+
     (mine&&ui.confirmDel===key?confirmHTML(p,kind):'')+
     '</div></li>';
@@ -3622,12 +3902,16 @@ function confirmHTML(p,kind){
     '<div class="rv-confirm__actions"><button type="button" class="fca-btn fca-btn--destructive" data-act="del" data-kind="'+kind+'" data-id="'+p.id+'"><span class="fca-icon" aria-hidden="true">delete</span>Delete</button>'+
     '<button type="button" class="fca-btn fca-btn--quiet" data-act="del-cancel" id="keepBtn">Keep it</button></div></div>';
 }
+function moreHTML(c){
+  var row=function(field,label,opts){return '<div class="rv-more__row"><span class="rv-more__label">'+label+'</span><div class="rv-more__opts">'+[""].concat(opts).map(function(o){
+    var on=(c[field]||"")===o; return '<button type="button" class="rv-opt'+(on?' is-on':'')+'" data-act="set" data-field="'+field+'" data-val="'+esc(o)+'" aria-pressed="'+on+'">'+(o||"None")+'</button>'}).join("")+'</div></div>'};
+  return '<div class="rv-more" role="group" aria-label="More options">'+row("priority","Priority",PRIOS)+row("category","Category",CATS)+
+    (isMine(c)?'<div class="rv-more__sep"></div><button type="button" class="rv-more__item" data-act="edit" data-key="comment:'+c.id+'">Edit comment</button><button type="button" class="rv-more__item rv-more__item--warn" data-act="del-ask" data-kind="comment" data-id="'+c.id+'">Delete comment</button>':'')+'</div>';
+}
 function detailHTML(c){
   var res=c.status==="Resolved", reps=repliesOf(c);
-  var where=[pageMeta(c.page).en,c.section].map(esc).join(" · ");
-  var facts=[esc(c.target),esc(VPS[c.viewport]?VPS[c.viewport].label:c.viewport)];
+  var full=[pageMeta(c.page).en,c.section,c.target].map(esc).join(" · ");
   var L=navOrder(), pos=-1; L.forEach(function(x,k){if(x.id===c.id)pos=k});
-  var sel=function(field,label,opts){return '<label class="rv-mini"><span class="rv-sr">'+label+'</span><select data-field="'+field+'"><option value="">'+label+'</option>'+opts.map(function(o){return '<option value="'+o+'"'+(c[field]===o?' selected':'')+'>'+(field==="priority"?o+" priority":o)+'</option>'}).join("")+'</select></label>'};
   var note=c.statusBy&&c.statusAt&&c.statusAt!==c.createdAt?(res?"Resolved":"Reopened")+" by "+esc(c.statusBy)+", "+fmt(c.statusAt):"";
   return '<div class="rv-detail"><div class="rv-detail__nav"><button type="button" class="fca-btn fca-btn--quiet rv-back" data-act="back"><span class="fca-icon" aria-hidden="true">arrow_back</span>All comments</button>'+
     (L.length>1||pos<0?'<div class="rv-step"><button type="button" class="fca-iconbtn" data-act="prev" aria-label="Previous comment" title="Previous comment (↑)"'+(pos===0?' disabled':'')+'><span class="fca-icon" aria-hidden="true">chevron_left</span></button>'+
@@ -3635,29 +3919,30 @@ function detailHTML(c){
       '<button type="button" class="fca-iconbtn" data-act="next" aria-label="Next comment" title="Next comment (↓)"'+(pos===L.length-1?' disabled':'')+'><span class="fca-icon" aria-hidden="true">chevron_right</span></button></div>':'')+'</div>'+
     '<article class="fca-card rv-thread" aria-label="Comment '+c._n+' and its replies">'+
       '<div class="rv-thread__top"><span class="rv-num rv-num--sm'+(res?" is-resolved":"")+'" aria-label="Comment '+c._n+'">'+c._n+'</span>'+
-        '<span class="rv-thread__where" title="'+where+'">'+where+'</span>'+
-        '<span class="fca-badge'+(res?'':' fca-badge--warning')+'">'+(res?"Resolved":"Open")+'</span></div>'+
-      '<ol class="rv-thread__list">'+
-        postHTML(c,"comment",c.id)+
-        '<li class="rv-msg rv-msg--facts"><span class="rv-msg__spacer" aria-hidden="true"></span><div class="rv-post__body">'+
-          '<p class="rv-facts">'+facts.join(" · ")+'</p>'+
-          '<div class="rv-triage">'+sel("priority","Priority",PRIOS)+sel("category","Category",CATS)+'</div>'+
-          '<div class="rv-thread__actions"><button type="button" class="fca-btn fca-btn--quiet fca-btn--sm" data-act="locate"><span class="fca-icon" aria-hidden="true">location_on</span>Show on page</button>'+
-          '<button type="button" class="fca-btn fca-btn--sm" data-act="toggle-status"><span class="fca-icon" aria-hidden="true">'+(res?"chat_bubble":"check_circle")+'</span>'+(res?"Reopen":"Mark resolved")+'</button></div>'+
-          (note?'<p class="rv-thread__note">'+note+'</p>':'')+
-        '</div></li>'+
-        reps.map(function(r){return postHTML(r,"reply",c.id)}).join("")+
-        '<li class="rv-msg rv-msg--compose">'+(me?av(me.name):'<span class="fca-avatar fca-avatar--general rv-av" aria-hidden="true">?</span>')+
-          '<div class="rv-post__body"><div class="fca-field rv-field-textarea"><label class="fca-field__label" for="replyText">Reply'+(reps.length?" · "+reps.length+(reps.length===1?" reply so far":" replies so far"):"")+'</label><div class="fca-field__control"><textarea class="fca-field__input" id="replyText" placeholder="Add your view on this comment"></textarea></div></div>'+
-          '<div class="rv-att" data-slot="reply">'+attachHTML("reply")+'</div>'+
-          '<button type="button" class="fca-btn fca-btn--primary fca-btn--block" data-act="reply">Reply</button></div></li>'+
-      '</ol>'+
+        '<span class="rv-thread__where" title="'+full+'">'+esc(ui.scope==="all"&&c.page!==ui.page?pageMeta(c.page).en+" · "+c.section:c.section)+'</span>'+
+        (c.priority?'<span class="rv-prio rv-prio--'+esc(c.priority)+'">'+esc(c.priority)+'</span>':'')+
+        (c.viewport!=="desktop"?'<span class="fca-badge rv-vpbadge">'+esc(VPS[c.viewport]?VPS[c.viewport].label:c.viewport)+'</span>':'')+
+        '<button type="button" class="rv-icobtn" data-act="locate" aria-label="Show on page" title="Show on page">'+SVG_PIN+'</button>'+
+        (ui.resolving===c.id?'':'<button type="button" class="rv-resbtn'+(res?' is-res':'')+'" data-act="toggle-status">'+(res?'Reopen':SVG_CHECK+'Resolve')+'</button>')+
+        '<button type="button" class="rv-icobtn" data-act="more" aria-label="More options" aria-expanded="'+(ui.more===c.id)+'" title="Priority, category'+(isMine(c)?', edit, delete':'')+'">'+SVG_MORE+'</button></div>'+
+      (ui.more===c.id?moreHTML(c):'')+
+      (ui.resolving===c.id?'<div class="rv-resolve"><div class="fca-field rv-field-textarea"><label class="fca-field__label" for="resolveText">What changed? <span class="rv-resolve__opt">Optional · sent as a reply so '+(c.author===(me&&me.name)?'others know':esc(c.author.split(" ")[0])+' knows')+'</span></label>'+
+        '<div class="fca-field__control"><textarea class="fca-field__input" id="resolveText" rows="2" placeholder="For example: moved Bonds to the Investors menu"></textarea></div></div>'+
+        '<div class="rv-actions-row"><button type="button" class="fca-btn fca-btn--quiet fca-btn--sm" data-act="resolve-cancel">Cancel</button><button type="button" class="fca-btn fca-btn--primary fca-btn--sm" data-act="resolve-do"><span class="fca-icon" aria-hidden="true">check_circle</span>Resolve</button></div></div>':'')+
+      (note?'<p class="rv-thread__note">'+note+'</p>':'')+
+      '<ol class="rv-thread__list">'+postHTML(c,"comment",c.id)+reps.map(function(r){return postHTML(r,"reply",c.id)}).join("")+'</ol>'+
+      '<div class="rv-replywrap" data-slot="reply">'+
+        (ui.pend.reply.length?'<div class="rv-att">'+attachHTML("reply",null,true)+'</div>':'')+
+        '<div class="rv-replybar"><label class="rv-sr" for="replyText">Reply</label><textarea id="replyText" rows="1" placeholder="Reply…"></textarea>'+
+        (ui.pend.reply.length<IMG_MAX?'<button type="button" class="rv-icobtn" data-act="att-add" data-slot="reply" aria-label="Add image" title="Add image (or paste a screenshot)">'+SVG_IMG+'</button>':'')+
+        '<button type="button" class="rv-send" data-act="reply" aria-label="Send reply" title="Send (Ctrl+Enter)">'+SVG_SEND+'</button></div></div>'+
     '</article></div>';
 }
 
 /* panel events */
 body.addEventListener("click",function(e){
-  var t=e.target.closest("[data-open],[data-act],[data-chip]"); if(!t)return;
+  var t=e.target.closest("[data-open],[data-act],[data-chip]");
+  if(!t){if(ui.more&&!e.target.closest(".rv-more")){ui.more=null;render()}return}
   if(t.dataset.open){select(t.dataset.open,true);return}
   if(t.dataset.chip){
     var name=t.dataset.chip, val=t.dataset.val, on=t.getAttribute("aria-pressed")==="true";
@@ -3667,11 +3952,18 @@ body.addEventListener("click",function(e){
     render();return;
   }
   var a=t.dataset.act, c=byId(ui.selected);
+  if(ui.more&&a!=="more"&&a!=="set"){ui.more=null}
+  if(a==="more"){ui.more=ui.more===ui.selected?null:ui.selected;ui.resolving=null;render();return}
+  if(a==="set"&&c){if(!me){askName();return}c[t.dataset.field]=t.dataset.val||null;c.updatedAt=now();ui.more=null;changed();return}
   if(a==="att-add"||a==="att-del"||a==="img-open"){attAction(t);return}
   if(a==="cancel")cancelCompose();
   else if(a==="post")postComment();
   else if(a==="back"){ui.view="list";ui.selected=null;render();schedule()}
   else if(a==="locate"&&c)scrollToComment(c);
+  else if(a==="toggle-status"&&c&&c.status!=="Resolved"){if(!me){askName();return}ui.resolving=c.id;ui.more=null;render();var rt=$("#resolveText");if(rt)rt.focus()}
+  else if(a==="resolve-cancel"){ui.resolving=null;render()}
+  else if(a==="resolve-do"&&c){resolveWithNote(c)}
+  else if(a==="quick-clear"){ui.quick="";render();schedule()}
   else if(a==="toggle-status"&&c){if(!me){askName();return}c.status=c.status==="Resolved"?"Open":"Resolved";c.statusBy=me.name;c.statusAt=now();changed();schedule();if(c.status==="Resolved"&&!ui.showResolved)toast("Resolved. It's hidden from the list now; Show resolved brings it back.")}
   else if(a==="reply")postReply();
   else if(a==="edit"){ui.editing=t.dataset.key;ui.confirmDel=null;ui.pend.edit=[];ui.editDrop={};render();var et=$("#editText");if(et){et.focus()}}
@@ -3694,6 +3986,7 @@ body.addEventListener("click",function(e){
   else if(a==="prev"){stepComment(-1)}
   else if(a==="next"){stepComment(1)}
   else if(a==="show-resolved"){setShowResolved(true)}
+  else if(a==="hide-resolved"){setShowResolved(false)}
   else if(a==="react"&&c){if(!me){askName();return}toggleReaction(c,t.dataset.val);changed()}
   else if(a==="del"){
     if(t.dataset.kind==="comment"){c.deleted=true;c.updatedAt=now();ui.view="list";ui.selected=null;toast("Comment "+c._n+" deleted")}
@@ -3707,13 +4000,15 @@ body.addEventListener("change",function(e){
   c[f]=e.target.value||null; c.updatedAt=now(); changed();
 });
 function setShowResolved(v){ui.showResolved=v;lsSet("fca-review:resolved",v?"1":"0");render();schedule()}
-$("#resolvedBtn").addEventListener("click",function(){setShowResolved(!ui.showResolved)});
+
 body.addEventListener("keydown",function(e){
   if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){
     if(e.target.id==="composeText"){e.preventDefault();postComment()}
     else if(e.target.id==="replyText"){e.preventDefault();postReply()}
+    else if(e.target.id==="resolveText"){e.preventDefault();var c0=byId(ui.selected);if(c0)resolveWithNote(c0)}
     else if(e.target.id==="editText"){e.preventDefault();var b=$('[data-act="edit-save"]');if(b)b.click()}
-  } else if(e.key==="Enter"&&e.target.dataset&&e.target.dataset.open){select(e.target.dataset.open,true)}
+  } else if(e.key==="Escape"&&e.target.id==="resolveText"){e.preventDefault();e.stopPropagation();ui.resolving=null;render()}
+  else if(e.key==="Enter"&&e.target.dataset&&e.target.dataset.open){select(e.target.dataset.open,true)}
 });
 function postComment(){
   var d=ui.compose, txt=$("#composeText").value.trim();
@@ -3727,6 +4022,13 @@ function postComment(){
   var n=(numbered().filter(function(x){return x.id===c.id})[0]||{})._n;
   var row=body.querySelector('[data-open="'+c.id+'"]'); if(row){row.scrollIntoView({block:"nearest",behavior:"smooth"});row.classList.add("is-new")}
   toast("Comment "+n+" added");
+}
+function resolveWithNote(c){
+  if(!me){askName();return}
+  var el=$("#resolveText"), txt=el?el.value.trim():"", t=now();
+  if(txt)(c.replies=c.replies||[]).push({id:uid(),author:me.name,role:me.role||"",createdAt:t,updatedAt:t,text:txt,stance:null,action:"resolved"});
+  c.status="Resolved"; c.statusBy=me.name; c.statusAt=t; ui.resolving=null; changed(); schedule();
+  toast(txt?"Resolved, with your note as a reply.":(ui.showResolved?"Resolved.":"Resolved. It's hidden from the list now; Show resolved brings it back."));
 }
 function postReply(){
   if(!me){askName();return}
@@ -3774,7 +4076,7 @@ document.addEventListener("paste",function(e){
   if(!files.length)return; e.preventDefault(); addFiles(slot,files);
 });
 [composer,body].forEach(function(zone){
-  zone.addEventListener("dragover",function(e){var s=slotOf(e.target)||(zone===composer?"compose":null);if(!s||!e.dataTransfer||[].indexOf.call(e.dataTransfer.types,"Files")<0)return;e.preventDefault();var el=zone===composer?composer:e.target.closest(".rv-post__body");if(el)el.classList.add("is-drop")});
+  zone.addEventListener("dragover",function(e){var s=slotOf(e.target)||(zone===composer?"compose":null);if(!s||!e.dataTransfer||[].indexOf.call(e.dataTransfer.types,"Files")<0)return;e.preventDefault();var el=zone===composer?composer:e.target.closest(".rv-post__body,.rv-replywrap");if(el)el.classList.add("is-drop")});
   zone.addEventListener("dragleave",function(e){var el=e.target.closest&&e.target.closest(".is-drop");if(el&&!el.contains(e.relatedTarget))el.classList.remove("is-drop")});
   zone.addEventListener("drop",function(e){var s=slotOf(e.target)||(zone===composer?"compose":null);$$(".is-drop").forEach(function(x){x.classList.remove("is-drop")});if(!s||!e.dataTransfer||!e.dataTransfer.files.length)return;e.preventDefault();addFiles(s,e.dataTransfer.files)});
 });
@@ -3794,9 +4096,72 @@ document.addEventListener("keydown",function(e){if(lbox.hidden)return;
   else if(e.key==="ArrowRight"){e.preventDefault();e.stopImmediatePropagation();$("#lbNext").click()}
   else if(e.key==="ArrowUp"||e.key==="ArrowDown"){e.stopImmediatePropagation()}},true);
 
+/* @ picker: type @ in any comment, reply, edit or resolve box */
+var MP={el:null,start:0,list:[],i:0}, mpop=$("#mentionPop");
+var MBOX={composeText:1,replyText:1,editText:1,resolveText:1};
+function mQuery(el){
+  var v=el.value.slice(0,el.selectionStart), m=v.match(/(^|[\s(])@([^\s@]{0,30}(?: [^\s@]{0,30})?)$/);
+  return m?{q:m[2],start:el.selectionStart-m[2].length-1}:null;
+}
+function mClose(){mpop.hidden=true;MP.el=null}
+function mShow(el){
+  var r=mQuery(el); if(!r){mClose();return}
+  var q=r.q.toLowerCase(), all=people().filter(function(n){return !me||n!==me.name});
+  var L=all.filter(function(n){var l=n.toLowerCase();return !q||l.indexOf(q)===0||l.split(" ").some(function(w){return w.indexOf(q)===0})}).slice(0,6);
+  if(!L.length){mClose();return}
+  MP.el=el;MP.start=r.start;MP.list=L;if(MP.i>=L.length)MP.i=0;
+  mpop.innerHTML='<p class="rv-mpop__head">Mention someone</p>'+L.map(function(n,i){return '<button type="button" class="rv-mpop__item'+(i===MP.i?' is-on':'')+'" role="option" aria-selected="'+(i===MP.i)+'" data-name="'+esc(n)+'">'+av(n,true)+'<span>'+esc(n)+'</span></button>'}).join("");
+  var b=el.getBoundingClientRect(), w=260, left=Math.min(Math.max(8,b.left),window.innerWidth-w-8), below=b.bottom+6, h=40+L.length*44;
+  mpop.style.width=w+"px"; mpop.style.left=left+"px"; mpop.style.top=(below+h>window.innerHeight-8?Math.max(8,b.top-h-6):below)+"px";
+  mpop.hidden=false;
+}
+function mPick(name){
+  var el=MP.el; if(!el)return; var end=el.selectionStart;
+  el.value=el.value.slice(0,MP.start)+"@"+name+" "+el.value.slice(end);
+  var pos=MP.start+name.length+2; el.focus(); el.setSelectionRange(pos,pos); mClose();
+  if(el.id==="replyText")autoGrow(el);
+  if(el.id==="composeText"&&ui.compose)ui.compose.text=el.value;
+}
+document.addEventListener("input",function(e){if(MBOX[e.target.id]){MP.i=0;mShow(e.target)}});
+document.addEventListener("keydown",function(e){
+  if(mpop.hidden||e.target!==MP.el)return;
+  if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();e.stopImmediatePropagation();MP.i=(MP.i+(e.key==="ArrowDown"?1:-1)+MP.list.length)%MP.list.length;mShow(MP.el)}
+  else if((e.key==="Enter"&&!e.ctrlKey&&!e.metaKey)||e.key==="Tab"){e.preventDefault();e.stopImmediatePropagation();mPick(MP.list[MP.i])}
+  else if(e.key==="Escape"){e.preventDefault();e.stopImmediatePropagation();mClose()}
+},true);
+mpop.addEventListener("mousedown",function(e){var b=e.target.closest("[data-name]");if(b){e.preventDefault();mPick(b.dataset.name)}});
+document.addEventListener("focusout",function(e){if(e.target===MP.el)setTimeout(function(){if(document.activeElement!==MP.el)mClose()},120)});
+window.addEventListener("resize",mClose); body.addEventListener("scroll",mClose);
+
+/* quick filters */
+$("#quickHint").addEventListener("click",function(e){var b=e.target.closest("[data-quick]");if(b){ui.quick="";render();schedule()}});
+$("#quick").addEventListener("click",function(e){var b=e.target.closest("[data-quick]");if(!b)return;ui.quick=ui.quick===b.dataset.quick?"":b.dataset.quick;if(ui.view!=="list"){ui.view="list";ui.selected=null}render();schedule()});
+/* updates popover */
+var updPop=$("#updPop");
+function closeUpd(){updPop.hidden=true;$("#updBtn").setAttribute("aria-expanded","false")}
+$("#updBtn").addEventListener("click",function(e){
+  e.stopPropagation(); if(!updPop.hidden){closeUpd();return}
+  closeAppMenu(); updPop.innerHTML=updHTML(updatesFor()); updPop.hidden=false; $("#updBtn").setAttribute("aria-expanded","true");
+  var f=updPop.querySelector("button"); if(f)f.focus();
+});
+updPop.addEventListener("click",function(e){
+  var b=e.target.closest("[data-upd],[data-upd-open]"); if(!b)return;
+  if(b.dataset.upd==="all"){markAllRead();return}
+  var cid=b.dataset.updOpen, id=b.dataset.updId; closeUpd();
+  if(id)markRead(id); ui.quick=""; if(byId(cid)&&byId(cid).status==="Resolved"&&!ui.showResolved){ui.showResolved=true;lsSet("fca-review:resolved","1")}
+  select(cid,true);
+});
+document.addEventListener("click",function(e){if(!updPop.hidden&&!updPop.contains(e.target)&&!$("#updBtn").contains(e.target))closeUpd()});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!updPop.hidden){closeUpd();$("#updBtn").focus()}});
+
 /* filters */
 $("#filterBtn").addEventListener("click",function(){var f=$("#filters"),open=f.hidden;f.hidden=!open;this.setAttribute("aria-expanded",String(open))});
-function filterCount(){var n=0;for(var k in ui.f)if(ui.f[k])n++;$("#filterBtn").textContent=n?"Filters · "+n:"Filters"}
+function filterCount(){var n=0;for(var k in ui.f)if(ui.f[k])n++;$("#filterN").hidden=!n;$("#filterN").textContent=n;$("#filterBtn").setAttribute("aria-label",n?"Filters, "+n+" on":"Filters")}
+function openSearch(){$("#searchRow").hidden=false;$("#searchBtn").setAttribute("aria-expanded","true");$("#search").focus()}
+function closeSearch(){$("#search").value="";if(ui.q){ui.q="";render();schedule()}$("#searchRow").hidden=true;$("#searchBtn").setAttribute("aria-expanded","false");$("#searchBtn").focus()}
+$("#searchBtn").addEventListener("click",function(){if($("#searchRow").hidden)openSearch();else closeSearch()});
+$("#searchClose").addEventListener("click",closeSearch);
+$("#search").addEventListener("keydown",function(e){if(e.key==="Escape"){e.preventDefault();e.stopPropagation();closeSearch()}});
 $("#search").addEventListener("input",function(e){ui.q=e.target.value.trim();render();schedule()});
 [["#fStatus","status"],["#fPrio","prio"],["#fCat","cat"],["#fAuthor","author"]].forEach(function(p){
   $(p[0]).addEventListener("change",function(e){ui.f[p[1]]=e.target.value;filterCount();render();schedule()});
@@ -3818,7 +4183,7 @@ function renderPageNav(list){
   $("#doneBtn").setAttribute("aria-pressed",String(!!mine)); $("#doneLbl").textContent=mine?"Page reviewed":"Mark page reviewed";
   var others=data.pageDone.filter(function(x){return x.page===ui.page&&x.done&&(!me||x.by!==me.name)}).map(function(x){return x.by});
   $("#doneBtn").title=(others.length?"Also reviewed by "+others.join(", ")+". ":"")+"Mark that you have finished reviewing this page";
-  if(me){var n=WF.filter(function(p){return isDone(p.slug,me.name)}).length;$("#progress").textContent="You've reviewed "+n+"/"+WF.length+" pages"}
+  if(me){var n=WF.filter(function(p){return isDone(p.slug,me.name)}).length;$("#progress").textContent=n+"/"+WF.length;$("#progress").title="You've reviewed "+n+" of "+WF.length+" pages"}
   else $("#progress").textContent="";
   if(!pagePop.hidden)pagePop.innerHTML=pagePopHTML(list);
 }
@@ -4040,7 +4405,8 @@ function onRemote(){
   data.pageDone=Object.keys(R.pageDone).map(function(id){LV.sent["pageDone/"+id]=canon(R.pageDone[id]);return clean(R.pageDone[id])});
   // what others just added, for a short notice
   var ids={};data.comments.forEach(function(c){ids["c"+c.id]=c;repliesOf(c).forEach(function(r){ids["r"+r.id]={r:r,c:c}})});
-  if(LV.known){Object.keys(ids).forEach(function(k){if(LV.known[k])return;var x=ids[k];var who=k.charAt(0)==="c"?x.author:x.r.author;if(me&&who===me.name)return;fresh.push(k.charAt(0)==="c"?who+" added a comment on "+pageMeta(x.page).en:who+" replied to comment "+(numbered().filter(function(y){return y.id===x.c.id})[0]||{})._n)})}
+  if(LV.known){Object.keys(ids).forEach(function(k){if(LV.known[k])return;var x=ids[k];var who=k.charAt(0)==="c"?x.author:x.r.author;if(me&&who===me.name)return;var txt=k.charAt(0)==="c"?x.text:x.r.text, nn=(numbered().filter(function(y){return y.id===(k.charAt(0)==="c"?x.id:x.c.id)})[0]||{})._n;
+    fresh.push(mentionsMe(txt)?who+" mentioned you in comment "+nn:k.charAt(0)==="c"?who+" added a comment on "+pageMeta(x.page).en:who+" replied to comment "+nn)})}
   LV.known={};Object.keys(ids).forEach(function(k){LV.known[k]=1});
   var first=!LV.ready; LV.ready=true;
   if(first||LV.state==="connecting")setLive(navigator.onLine?(LV.pending?"saving":"saved"):"offline");
