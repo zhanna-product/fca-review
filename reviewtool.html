@@ -2991,6 +2991,25 @@ textarea.fca-field__input { min-height: 96px; resize: vertical; padding-block: v
 .rv-mpop__head { margin: 0; padding: 6px 8px 4px; font-size: 12px; font-weight: 600; color: var(--ink-3); }
 .rv-mpop__item { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 40px; padding: 4px 8px; border: 0; border-radius: var(--radius-sm); background: transparent; font: inherit; font-size: 14px; font-weight: 600; color: var(--ink); text-align: left; cursor: pointer; }
 .rv-mpop__item.is-on, .rv-mpop__item:hover { background: var(--action-soft); }
+#quickHint { flex: none; }
+
+/* reply to a specific message */
+.rv-link--reply { display: inline-flex; align-items: center; gap: 3px; color: var(--link); }
+.rv-link--reply svg, .rv-quote svg, .rv-replyto svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.rv-quote { display: flex; gap: 6px; align-items: flex-start; margin: 2px 0 2px; padding: 4px 8px; border-left: 2px solid var(--line-strong); border-radius: 0 6px 6px 0; background: var(--surface-muted); font-size: 12.5px; line-height: 17px; color: var(--ink-3); }
+.rv-quote svg { margin-top: 1px; }
+.rv-quote b { color: var(--ink-2); font-weight: 600; }
+.rv-replyto { display: flex; align-items: center; gap: 6px; padding: 6px 4px 6px 10px; border-radius: var(--radius-sm); background: var(--action-soft); color: var(--on-action-soft); font-size: 13px; line-height: 18px; }
+.rv-replyto__t { flex: 1; min-width: 0; display: flex; align-items: center; gap: 5px; white-space: nowrap; overflow: hidden; }
+.rv-replyto__t b { font-weight: 600; }
+.rv-replyto__q { color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; }
+.rv-quote { align-items: center; } .rv-quote > span { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .rv-link--reply { text-decoration: none; }
+/* Reply link appears when you point at a message (always shown on touch screens) */
+@media (hover: hover) {
+  .rv-msg .rv-link--reply { opacity: 0; transition: opacity var(--dur-fast) var(--ease-standard); }
+  .rv-msg:hover .rv-link--reply, .rv-msg:focus-within .rv-link--reply, .rv-link--reply:focus-visible { opacity: 1; }
+}
+@media (hover: hover) { .rv-msg--reply:hover > .rv-post__body, .rv-msg--root:hover > .rv-post__body { background: var(--surface-muted); border-radius: 8px; box-shadow: 0 0 0 6px var(--surface-muted); } }
 
 </style>
 </head>
@@ -3189,7 +3208,7 @@ var WF = META.filter(function(p){return !p.proposal}); // the agency's wireframe
 var PAGE_IDX = {}; META.forEach(function(p,i){PAGE_IDX[p.slug]=i});
 function pageMeta(slug){return META[PAGE_IDX[slug]]||{slug:slug,en:slug,hy:""}}
 var startPage = lsGet("fca-review:page"); if(!(startPage in PAGE_IDX))startPage="index";
-var ui = {more:null, quick:"", resolving:null, pend:{compose:[],reply:[],edit:[]}, pendSel:null, editDrop:{}, showResolved: lsGet("fca-review:resolved")==="1", zoom: lsGet("fca-review:zoom")==="100"?"100":"fit", mode:"browse", vp:"desktop", page:startPage, scope:"page", view:"list", selected:null, compose:null, editing:null, confirmDel:null, q:"", f:{status:"",prio:"",cat:"",author:""}};
+var ui = {replyTo:null, more:null, quick:"", resolving:null, pend:{compose:[],reply:[],edit:[]}, pendSel:null, editDrop:{}, showResolved: lsGet("fca-review:resolved")==="1", zoom: lsGet("fca-review:zoom")==="100"?"100":"fit", mode:"browse", vp:"desktop", page:startPage, scope:"page", view:"list", selected:null, compose:null, editing:null, confirmDel:null, q:"", f:{status:"",prio:"",cat:"",author:""}};
 var savedHash = stateHash();
 
 function stateHash(){return hash(JSON.stringify([data.comments,data.pageDone,data.images.map(function(m){return m.id+(m.deleted?"x":"")})]))}
@@ -3251,7 +3270,8 @@ function updatesFor(){
         if(mentionsMe(r.text)){out.push({id:"r:"+r.id,at:r.createdAt,who:r.author,c:c,kind:"mention",text:r.text,img:imagesOf(r.id).length});return}
         if(r.createdAt<=since)return;
         if(r.action==="resolved")noted[r.createdAt]=1;
-        out.push({id:"r:"+r.id,at:r.createdAt,who:r.author,c:c,kind:r.action==="resolved"?"resolved":"reply",text:r.text,img:imagesOf(r.id).length});
+        var tgt=r.replyTo?postById(c,r.replyTo):null;
+        out.push({id:"r:"+r.id,at:r.createdAt,who:r.author,c:c,kind:r.action==="resolved"?"resolved":(tgt&&tgt.author===me.name?"replyme":"reply"),text:r.text,img:imagesOf(r.id).length});
       });
       if(c.statusBy&&c.statusBy!==me.name&&c.statusAt&&c.statusAt>since&&c.statusAt!==c.createdAt&&!noted[c.statusAt])
         out.push({id:"s:"+c.id+":"+c.statusAt,at:c.statusAt,who:c.statusBy,c:c,kind:c.status==="Resolved"?"resolved":"reopened"});
@@ -3296,12 +3316,12 @@ function updHTML(U){
   return out+'<div class="rv-upd__list">'+U.slice(0,60).map(function(u){
     var mineC=u.c.author===me.name, N=u.c._n;
     var verb={reply:"replied to "+(mineC?"your comment ":"comment ")+N,resolved:"resolved "+(mineC?"your comment ":"comment ")+N,reopened:"reopened comment "+N,
-      agree:"agrees with your comment "+N,disagree:"disagrees with your comment "+N,mention:"mentioned you in comment "+N}[u.kind];
+      agree:"agrees with your comment "+N,disagree:"disagrees with your comment "+N,mention:"mentioned you in comment "+N,replyme:"replied to you in comment "+N}[u.kind];
     var snip=u.text?u.text:(u.img?"Sent "+(u.img===1?"an image":u.img+" images"):(u.kind==="agree"||u.kind==="disagree"||u.kind==="resolved"||u.kind==="reopened"?u.c.text:""));
     if(snip.length>110)snip=snip.slice(0,108)+"…";
     return '<button type="button" class="rv-upd__item'+(u.unread?' is-unread':'')+'" data-upd-open="'+u.c.id+'" data-upd-id="'+esc(u.id)+'">'+av(u.who,true)+
       '<span class="rv-upd__body"><span class="rv-upd__line"><b>'+esc(u.who)+'</b> '+esc(verb)+'</span>'+
-      (snip?'<span class="rv-upd__snip">'+(u.kind==="reply"||u.kind==="mention"||u.kind==="resolved"&&u.text?'“'+esc(snip)+'”':esc(snip))+'</span>':'')+
+      (snip?'<span class="rv-upd__snip">'+(u.kind==="reply"||u.kind==="replyme"||u.kind==="mention"||u.kind==="resolved"&&u.text?'“'+esc(snip)+'”':esc(snip))+'</span>':'')+
       '<span class="rv-upd__meta">'+esc(pageMeta(u.c.page).en)+' · '+ago(u.at)+'</span></span>'+(u.unread?'<span class="rv-upd__dot" aria-label="New"></span>':'')+'</button>';
   }).join("")+'</div>';
 }
@@ -3318,6 +3338,9 @@ function renderQuick(scoped,U){
 /* ---------- images on comments and replies ---------- */
 var IMG_MAX=4, IMG_SIDE=1600, IMG_LIMIT=850000; // per post; longest side in px; stored size (chars) so each fits one database record
 var SVG_PIN='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.6-6-10.5a6 6 0 0112 0C18 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2"/></svg>', SVG_CHECK='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></svg>', SVG_MORE='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18" cy="12" r="1.3"/></svg>', SVG_SEND='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>';
+var SVG_REPLY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 8L5 12.5 10 17"/><path d="M5.5 12.5H14a5 5 0 015 5V19"/></svg>';
+function postById(c,id){if(c.id===id)return c;return live(c.replies).filter(function(r){return r.id===id&&r.kind!=="reaction"})[0]||null}
+function snippet(t,n){t=(t||"").replace(/\s+/g," ").trim();n=n||70;return t.length>n?t.slice(0,n-1)+"…":(t||"Image")}
 var SVG_IMG='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5"/></svg>';
 function imagesOf(owner){return data.images.filter(function(m){return m.owner===owner&&!m.deleted}).sort(function(a,b){return a.at<b.at?-1:a.at>b.at?1:((a.n||0)-(b.n||0))})}
 function threadImages(c){return data.images.filter(function(m){return m.cid===c.id&&!m.deleted})}
@@ -3714,7 +3737,7 @@ document.addEventListener("keydown",onKey);
 ========================================================= */
 var body=$("#panelBody");
 function select(id,scroll){
-  ui.selected=id; ui.view="detail"; ui.editing=null; ui.confirmDel=null; ui.resolving=null; ui.more=null;
+  ui.selected=id; ui.view="detail"; ui.editing=null; ui.confirmDel=null; ui.resolving=null; ui.more=null; ui.replyTo=null;
   var c=byId(id);
   if(c&&scroll&&c.viewport!==ui.vp&&VPS[c.viewport]){setVp(c.viewport);toast("Switched to "+VPS[c.viewport].label+", where this comment was made.")}
   if(c&&c.page!==ui.page){if(scroll)pendingScroll=c.id;goPage(c.page,{keepSelection:true});return}
@@ -3884,11 +3907,13 @@ function postHTML(p,kind,cid){
       '<div class="rv-actions-row"><button type="button" class="fca-btn fca-btn--quiet fca-btn--sm" data-act="edit-cancel">Cancel</button><button type="button" class="fca-btn fca-btn--sm" data-act="edit-save" data-kind="'+kind+'" data-id="'+p.id+'"><span class="fca-icon" aria-hidden="true">check</span>Save changes</button></div></div></li>';
   }
   var c=root?p:byId(cid);
+  var replyBtn=!mine&&me?'<button type="button" class="rv-link rv-link--reply" data-act="reply-to" data-id="'+p.id+'" aria-label="Reply to '+esc(p.author)+'">'+SVG_REPLY+'Reply</button>':'';
   var tools=mine&&!root&&ui.confirmDel!==key?'<button type="button" class="rv-link" data-act="edit" data-key="'+key+'">Edit</button><button type="button" class="rv-link rv-link--warn" data-act="del-ask" data-kind="'+kind+'" data-id="'+p.id+'">Delete</button>':'';
   return '<li class="'+cls+'">'+av(p.author)+'<div class="rv-post__body"><div class="rv-post__head"><span class="rv-post__name">'+esc(who(p))+'</span><span class="rv-post__date">'+fmt(p.createdAt)+(p.updatedAt&&p.updatedAt!==p.createdAt&&!root?" · edited":"")+'</span>'+
     (p.action==="resolved"?'<span class="fca-badge fca-badge--brand rv-post__badge">Resolved</span>':'')+
     (p.stance&&STANCES.indexOf(p.stance)>=0?'<span class="rv-stance rv-stance--'+esc(p.stance)+'">'+esc(p.stance)+'</span>':'')+
-    (tools?'<span class="rv-post__tools" aria-label="'+(root?"Comment":"Reply")+' actions">'+tools+'</span>':'')+'</div>'+
+    (tools||replyBtn?'<span class="rv-post__tools" aria-label="'+(root?"Comment":"Reply")+' actions">'+replyBtn+tools+'</span>':'')+'</div>'+
+    (!root&&p.replyTo&&c&&postById(c,p.replyTo)?(function(q){return '<p class="rv-quote">'+SVG_REPLY+'<span><b>'+esc(q.author)+'</b> '+esc(snippet(q.text))+'</span></p>'})(postById(c,p.replyTo)):'')+
     (p.text?'<p class="rv-post__text">'+richText(p.text)+'</p>':'')+imgsHTML(p)+
     (root?'<div class="rv-post__bar">'+reactHTML(c)+'</div>':'')+
     (mine&&ui.confirmDel===key?confirmHTML(p,kind):'')+
@@ -3932,8 +3957,9 @@ function detailHTML(c){
       (note?'<p class="rv-thread__note">'+note+'</p>':'')+
       '<ol class="rv-thread__list">'+postHTML(c,"comment",c.id)+reps.map(function(r){return postHTML(r,"reply",c.id)}).join("")+'</ol>'+
       '<div class="rv-replywrap" data-slot="reply">'+
+        (ui.replyTo&&postById(c,ui.replyTo)?(function(q){return '<div class="rv-replyto"><span class="rv-replyto__t">'+SVG_REPLY+'Replying to <b>'+esc(q.author)+'</b> <span class="rv-replyto__q">'+esc(snippet(q.text,60))+'</span></span><button type="button" class="rv-icobtn rv-icobtn--sm" data-act="reply-to-cancel" aria-label="Cancel reply to '+esc(q.author)+'">'+'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button></div>'})(postById(c,ui.replyTo)):'')+
         (ui.pend.reply.length?'<div class="rv-att">'+attachHTML("reply",null,true)+'</div>':'')+
-        '<div class="rv-replybar"><label class="rv-sr" for="replyText">Reply</label><textarea id="replyText" rows="1" placeholder="Reply…"></textarea>'+
+        '<div class="rv-replybar"><label class="rv-sr" for="replyText">Reply</label><textarea id="replyText" rows="1" placeholder="'+(ui.replyTo&&postById(c,ui.replyTo)?'Reply to '+esc(postById(c,ui.replyTo).author.split(" ")[0])+'…':'Reply…')+'"></textarea>'+
         (ui.pend.reply.length<IMG_MAX?'<button type="button" class="rv-icobtn" data-act="att-add" data-slot="reply" aria-label="Add image" title="Add image (or paste a screenshot)">'+SVG_IMG+'</button>':'')+
         '<button type="button" class="rv-send" data-act="reply" aria-label="Send reply" title="Send (Ctrl+Enter)">'+SVG_SEND+'</button></div></div>'+
     '</article></div>';
@@ -3956,6 +3982,8 @@ body.addEventListener("click",function(e){
   if(a==="more"){ui.more=ui.more===ui.selected?null:ui.selected;ui.resolving=null;render();return}
   if(a==="set"&&c){if(!me){askName();return}c[t.dataset.field]=t.dataset.val||null;c.updatedAt=now();ui.more=null;changed();return}
   if(a==="att-add"||a==="att-del"||a==="img-open"){attAction(t);return}
+  if(a==="reply-to"){ui.replyTo=t.dataset.id;render();var rt=$("#replyText");if(rt){rt.focus();rt.scrollIntoView({block:"nearest"})}return}
+  if(a==="reply-to-cancel"){ui.replyTo=null;render();var rt2=$("#replyText");if(rt2)rt2.focus();return}
   if(a==="cancel")cancelCompose();
   else if(a==="post")postComment();
   else if(a==="back"){ui.view="list";ui.selected=null;render();schedule()}
@@ -4035,7 +4063,9 @@ function postReply(){
   var c=byId(ui.selected), txt=$("#replyText").value.trim(); if(!c)return;
   if(!txt&&!ui.pend.reply.length){$("#replyText").focus();return}
   var t=now(), rid=uid(); $("#replyText").value="";
-  (c.replies=c.replies||[]).push({id:rid,author:me.name,role:me.role||"",createdAt:t,updatedAt:t,text:txt,stance:null});
+  var rp={id:rid,author:me.name,role:me.role||"",createdAt:t,updatedAt:t,text:txt,stance:null};
+  if(ui.replyTo&&postById(c,ui.replyTo))rp.replyTo=ui.replyTo;
+  (c.replies=c.replies||[]).push(rp); ui.replyTo=null;
   commitImages("reply",rid,c.id);
   ui.replyStance=null; changed();
   body.scrollTop=body.scrollHeight;
